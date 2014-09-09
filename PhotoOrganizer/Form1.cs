@@ -1,26 +1,15 @@
-﻿using System;
+﻿using com.drew.imaging.jpg;
+using com.drew.imaging.tiff;
+using com.drew.metadata;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-
-using com.drew.lang;
-using com.drew.metadata;
-using com.drew.metadata.exif;
-using com.drew.imaging.jpg;
-using com.drew.imaging.tiff;
-
-using com.utils;
-using com.utils.bundle;
-using com.utils.xml;
-using System.Globalization;
 
 namespace PhotoOrganizer
 {
@@ -194,7 +183,12 @@ namespace PhotoOrganizer
                             foreach (Tag t in lcDirectory.Where(x => x.GetTagName().ToUpper().Contains("DATE")))
                             {
                                 strDate = t.GetDescription();
-                                strDate = strDate.Substring(0, strDate.IndexOf(" ")).Replace(":", "\\");
+                                if(strDate.Contains(" "))
+                                {
+                                    strDate = strDate.Substring(0, strDate.IndexOf(" "));
+                                    if(!string.IsNullOrEmpty(strDate))
+                                        strDate = strDate.Replace(":", "\\");
+                                }
 
                                 if (t.GetTagName().ToUpper().Contains("ORIGINAL"))
                                 {
@@ -297,6 +291,7 @@ namespace PhotoOrganizer
             }
             sourceFolder = destFolder + @"\" + sourceFolder;
             bool failure = false;
+            string imgPath = sourceFolder + @"\" + imgName;
 
             if (!Directory.Exists(sourceFolder))
             {
@@ -313,18 +308,37 @@ namespace PhotoOrganizer
 
             if (!failure)
             {
-                if(File.Exists(sourceFolder + @"\" + imgName))
+
+                if (File.Exists(imgPath))
                 {
-                    errors.AppendLine("File already exists:" + sourceFolder + @"\" + imgName);                  
+                    if (SameFile(fileName, imgPath))
+                    {
+                        errors.AppendLine("File already exists:" + imgPath);
+                    }
+                    else
+                    {
+                        errors.AppendLine("Different file with same name exists:" + imgPath);
+                        int ext = imgPath.LastIndexOf(".");
+
+                        if(ext > 0)
+                        {
+                            imgPath = imgPath.Insert(ext, "_D");
+                            if (copyCheck.Checked)
+                                File.Copy(fileName, imgPath);
+                            else
+                                File.Move(fileName, imgPath);
+                        }
+
+                    }
                 }
                 else
                 {
                     try
                     {
                         if (copyCheck.Checked)
-                            File.Copy(fileName, sourceFolder + @"\" + imgName);
+                            File.Copy(fileName, imgPath);
                         else
-                            File.Move(fileName, sourceFolder + @"\" + imgName);
+                            File.Move(fileName, imgPath);
                     }
                     catch (Exception ex)
                     {
@@ -334,6 +348,16 @@ namespace PhotoOrganizer
             }
 
             return errors.ToString();
+        }
+
+        private bool SameFile(string fileName, string imgPath)
+        {
+            FileInfo source, target;
+
+            source = new FileInfo(fileName);
+            target = new FileInfo(imgPath);
+
+            return source.Length == target.Length;
         }
 
         private void btnBrowseSource_Click(object sender, EventArgs e)
