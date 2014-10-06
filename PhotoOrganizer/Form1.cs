@@ -16,20 +16,21 @@ namespace PhotoOrganizer
     public partial class frmMain : Form
     {
         private const string _logFileAddr = @"Logfile.txt";
-        private string _sourceFolder, _destFolder;
+        private string _sourceFolder, _destFolder, _action;
         private StringBuilder log;
 
         public frmMain()
         {
             InitializeComponent();
+            CompareButton.Click += new EventHandler(CompareClick);
             Message.Text = string.Empty;
-            txtSource.Text = @"C:\Users\Whit\Pictures\";
-            txtDest.Text = @"C:\Users\Whit\Pictures\";
+            txtSource.Text = @"C:\Users\Whit\Pictures\IN";
+            txtDest.Text = @"C:\Users\Whit\Pictures\OUT";
             log = new StringBuilder();
+
         }
 
-
-        private void btnGo_Click(object sender, EventArgs e)
+        private void HandleButtonClick(object sender, EventArgs e)
         {
             if(string.IsNullOrEmpty(txtSource.Text) || string.IsNullOrEmpty(txtDest.Text))
             {
@@ -41,7 +42,8 @@ namespace PhotoOrganizer
             _destFolder = txtDest.Text;
             txtSource.Enabled = false;
             txtDest.Enabled = false;
-            Message.Text = "Organizing photos, please wait...";
+            string message = (_action == "compare") ? "Comparing folders" : "Organizing Photos";
+            Message.Text = string.Format("{0}, please wait...", message);
 
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
@@ -61,11 +63,30 @@ namespace PhotoOrganizer
             }
         }
 
+        private void CompareClick(object sender, EventArgs e)
+        {
+            _action = "compare";
+            HandleButtonClick(sender, e);
+        }
+
+        private void btnGo_Click(object sender, EventArgs e)
+        {
+            _action = "organize";
+            HandleButtonClick(sender, e);
+        }
+
         private void DoWork(object sender, DoWorkEventArgs args)
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
 
-            OrganizeFolder(_sourceFolder, _destFolder);
+            if(_action == "compare")
+            {
+                CompareFolders(_sourceFolder, _destFolder);
+            }
+            else
+            {
+                OrganizeFolder(_sourceFolder, _destFolder);
+            }
             using (StreamWriter w = File.AppendText(_destFolder + "\\" + _logFileAddr))
             {
                 w.WriteLine(log.ToString());
@@ -156,16 +177,30 @@ namespace PhotoOrganizer
                             }
                         }
                         */
-                        isImage = true;
-                        data = JpegMetadataReader.ReadMetadata(fi);
+                        try
+                        {
+
+                            data = JpegMetadataReader.ReadMetadata(fi);
+                            isImage = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.AppendLine("Error reading " + fileName + ": " + ex.Message);
+                        }
 
                     }
                     else if (IsFileType(fileName, "RAW"))
                     {
-                        //handle Raws
-                        isImage = true;
-                        data = TiffMetadataReader.ReadMetadata(fi);
-
+                        try
+                        {
+                            //handle Raws
+                            data = TiffMetadataReader.ReadMetadata(fi);
+                            isImage = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.AppendLine("Error reading " + fileName + ": " + ex.Message);
+                        }
                     }
 
                     if (data != null)
@@ -183,10 +218,10 @@ namespace PhotoOrganizer
                             foreach (Tag t in lcDirectory.Where(x => x.GetTagName().ToUpper().Contains("DATE")))
                             {
                                 strDate = t.GetDescription();
-                                if(strDate.Contains(" "))
+                                if (strDate.Contains(" "))
                                 {
                                     strDate = strDate.Substring(0, strDate.IndexOf(" "));
-                                    if(!string.IsNullOrEmpty(strDate))
+                                    if (!string.IsNullOrEmpty(strDate))
                                         strDate = strDate.Replace(":", "\\");
                                 }
 
@@ -229,14 +264,14 @@ namespace PhotoOrganizer
                     isImage = false;
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ex;
                 }
-                
+
             }
 
-            foreach(string dir in subdirs)
+            foreach (string dir in subdirs)
             {
                 OrganizeFolder(dir, destFolder);
             }
@@ -244,6 +279,37 @@ namespace PhotoOrganizer
             if (ignored.Count > 0)
             {
                 log.AppendLine("Ignored files in :" + sourceFolder);
+                foreach (string s in ignored)
+                {
+                    log.AppendLine("   - " + s);
+                }
+            }
+        }
+        private void CompareFolders(string sourceFolder, string targetFolder)
+        {
+            List<string> sourcefiles = Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> targetfiles = Directory.EnumerateFiles(targetFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> sourcesubdirs = Directory.GetDirectories(sourceFolder).ToList();
+            List<string> targetsubdirs = Directory.GetDirectories(targetFolder).ToList();
+            List<string> ignored = new List<string>();
+
+            foreach (string fileName in sourcefiles)
+            {
+                if (!targetfiles.Contains(fileName.Replace(sourceFolder, targetFolder)))
+                    ignored.Add(fileName);
+            }
+
+            //foreach (string dir in sourcesubdirs)
+            //{
+            //    if(!targetsubdirs.Contains(dir.Replace(sourceFolder, targetFolder)))
+            //        log.AppendLine("Missing subdirectory: " + dir);
+
+            //    CompareFolders(dir, targetsubdirs.Where(x => x.Contains(dir)).FirstOrDefault());
+            //}
+
+            if (ignored.Count > 0)
+            {
+                log.AppendLine("Missing files in :" + sourceFolder);
                 foreach (string s in ignored)
                 {
                     log.AppendLine("   - " + s);

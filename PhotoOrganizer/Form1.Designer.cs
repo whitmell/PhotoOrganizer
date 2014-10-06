@@ -37,9 +37,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtDest = new System.Windows.Forms.TextBox();
             this.btnBrowseDest = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.Message = new System.Windows.Forms.Label();
             this.copyCheck = new System.Windows.Forms.CheckBox();
+            this.CompareButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtSource
@@ -105,15 +105,6 @@
             this.btnBrowseDest.UseVisualStyleBackColor = true;
             this.btnBrowseDest.Click += new System.EventHandler(this.btnBrowseDest_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "label3";
-            // 
             // Message
             // 
             this.Message.AutoSize = true;
@@ -135,14 +126,23 @@
             this.copyCheck.Text = "Make Copy?";
             this.copyCheck.UseVisualStyleBackColor = true;
             // 
+            // CompareButton
+            // 
+            this.CompareButton.Location = new System.Drawing.Point(427, 157);
+            this.CompareButton.Name = "CompareButton";
+            this.CompareButton.Size = new System.Drawing.Size(75, 23);
+            this.CompareButton.TabIndex = 10;
+            this.CompareButton.Text = "Compare";
+            this.CompareButton.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(522, 193);
+            this.Controls.Add(this.CompareButton);
             this.Controls.Add(this.copyCheck);
             this.Controls.Add(this.Message);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnBrowseDest);
             this.Controls.Add(this.txtDest);
             this.Controls.Add(this.label2);
@@ -168,9 +168,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDest;
         private System.Windows.Forms.Button btnBrowseDest;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label Message;
         private System.Windows.Forms.CheckBox copyCheck;
+        private System.Windows.Forms.Button CompareButton;
     }
 }
 
