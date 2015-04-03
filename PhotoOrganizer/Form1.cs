@@ -389,10 +389,17 @@ namespace PhotoOrganizer
                         if(ext > 0)
                         {
                             imgPath = imgPath.Insert(ext, "_D");
-                            if (copyCheck.Checked)
-                                File.Copy(fileName, imgPath);
+                            if (File.Exists(imgPath))
+                            {
+                                errors.AppendLine("Dupes of your dupes...check on that:" + imgPath);
+                            }
                             else
-                                File.Move(fileName, imgPath);
+                            {
+                                if (copyCheck.Checked)
+                                    File.Copy(fileName, imgPath);
+                                else
+                                    File.Move(fileName, imgPath);
+                            }
                         }
 
                     }
