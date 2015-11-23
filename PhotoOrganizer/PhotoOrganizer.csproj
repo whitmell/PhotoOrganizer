@@ -42,8 +42,7 @@
   <ItemGroup>
     <Reference Include="MetaDataExtractor, Version=2.4.0.18625, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MetaDataExtractorCSharp240d\MetaDataExtractorCSharp240d\bin\Release\MetaDataExtractor.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>.\MetaDataExtractor.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

@@ -266,7 +266,7 @@ namespace PhotoOrganizer
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    log.AppendLine("ERROR: " + ex);
                 }
 
             }
@@ -389,33 +389,36 @@ namespace PhotoOrganizer
                         if(ext > 0)
                         {
                             imgPath = imgPath.Insert(ext, "_D");
-                            if (File.Exists(imgPath))
-                            {
-                                errors.AppendLine("Dupes of your dupes...check on that:" + imgPath);
-                            }
+                            if (copyCheck.Checked)
+                                File.Copy(fileName, imgPath);
                             else
-                            {
-                                if (copyCheck.Checked)
-                                    File.Copy(fileName, imgPath);
-                                else
-                                    File.Move(fileName, imgPath);
-                            }
+                                File.Move(fileName, imgPath);
                         }
 
                     }
                 }
                 else
                 {
-                    try
+                    int ext = imgPath.LastIndexOf(".");
+                    string dupePath = imgPath.Insert(ext, "_D");
+
+                    if (File.Exists(dupePath))
                     {
-                        if (copyCheck.Checked)
-                            File.Copy(fileName, imgPath);
-                        else
-                            File.Move(fileName, imgPath);
+                        errors.AppendLine("Dupes of your dupes...check on that:" + imgPath);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        throw new Exception("Error copying file " + imgName + " - " + ex.Message);
+                        try
+                        {
+                            if (copyCheck.Checked)
+                                File.Copy(fileName, imgPath);
+                            else
+                                File.Move(fileName, imgPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.AppendLine("ERROR: " + ex);
+                        }
                     }
                 }
             }
