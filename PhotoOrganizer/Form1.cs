@@ -1,6 +1,4 @@
-﻿using com.drew.imaging.jpg;
-using com.drew.imaging.tiff;
-using com.drew.metadata;
+﻿using MetadataExtractor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,6 +77,14 @@ namespace PhotoOrganizer
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
 
+            string logPath = _destFolder + "\\" + _logFileAddr;
+
+            if (!System.IO.Directory.Exists(_destFolder))
+                System.IO.Directory.CreateDirectory(_destFolder);
+
+            if (!File.Exists(logPath))
+                File.Create(logPath);
+
             if(_action == "compare")
             {
                 CompareFolders(_sourceFolder, _destFolder);
@@ -87,7 +93,8 @@ namespace PhotoOrganizer
             {
                 OrganizeFolder(_sourceFolder, _destFolder);
             }
-            using (StreamWriter w = File.AppendText(_destFolder + "\\" + _logFileAddr))
+
+            using (StreamWriter w = File.AppendText(logPath))
             {
                 w.WriteLine(log.ToString());
                 w.Flush();
@@ -112,76 +119,122 @@ namespace PhotoOrganizer
 
         private void OrganizeFolder(string sourceFolder, string destFolder)
         {
-            List<string> files = Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
-            List<string> subdirs = Directory.GetDirectories(sourceFolder).ToList();
+            List<string> files = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> subdirs = System.IO.Directory.GetDirectories(sourceFolder).ToList();
             List<string> ignored = new List<string>();
             //Image img;
             //PropertyItem prop = null;
 
             FileInfo fi = null;
-            Metadata data = null;
+            //Metadata data = null;
             bool isImage = false;
             DateTime date = DateTime.MinValue;
             string dateTaken = string.Empty, dateDigitized = string.Empty,
                 dateModified = string.Empty, dateCreated = string.Empty;
 
 
+
+
+
+
+
+            string copyPath;    
             foreach (string fileName in files)
             {
+                copyPath = string.Empty;
                 try
                 {
+                    var directories = ImageMetadataReader.ReadMetadata(fileName);
+                    Dictionary<string, string> properties = new Dictionary<string, string>();
+                    foreach (var directory in directories)
+                    {
+                        foreach (var tag in directory.Tags)
+                        {
+                            if (!properties.ContainsKey(tag.Name))
+                                properties.Add(tag.Name, tag.Description);
+                            else
+                                properties[tag.Name] = tag.Description;
+                        }
+
+                        if (directory.HasError)
+                        {
+                            foreach (var error in directory.Errors)
+                                Debug.WriteLine($"ERROR: {error}");
+                        }
+                    }
+
+                    if(!properties.Any())
+                    {
+                        ignored.Add(fileName);
+                        continue;
+                    }
+
+                    string strDate;
+                    foreach (var t in properties.Where(x => x.Key.ToUpper().Contains("DATE")))
+                    {
+                        dateTaken = string.Empty;
+                        dateDigitized = string.Empty;
+                        dateModified = string.Empty;
+                        dateCreated = string.Empty;
+
+                        strDate = t.Value;
+
+                        var parts = strDate.Split(' ');
+                        if(parts.Length > 1)
+                        {
+                            strDate = parts.FirstOrDefault(x => x.Length > 6);
+                            if (!string.IsNullOrEmpty(strDate))
+                                strDate = strDate.Replace(":", "/");
+                        }
+
+                        if (t.Key.ToUpper().Contains("ORIGINAL"))
+                        {
+                            dateTaken = strDate;
+                        }
+                        if (t.Key.ToUpper().Contains("DIGITIZED"))
+                        {
+                            dateDigitized = strDate;
+                        }
+                    }
+
+
+                    fi = new FileInfo(fileName);
+
+                    if(!DateTime.TryParse(dateTaken, out date))
+                        if(!DateTime.TryParseExact(dateTaken.Replace("\\", string.Empty), "yyyyMMdd", CultureInfo.InvariantCulture,
+                            DateTimeStyles.None, out date))
+                            if(!DateTime.TryParse(dateDigitized, out date))
+                                if(!DateTime.TryParseExact(dateDigitized.Replace("\\", string.Empty), "yyyyMMdd", CultureInfo.InvariantCulture,
+                                    DateTimeStyles.None, out date))
+                                    date = (fi.CreationTime < fi.LastWriteTime) ? fi.CreationTime : fi.LastWriteTime;
+                    
+                    string s = CopyPicTo(fileName, date, destFolder);
+                    if (!string.IsNullOrEmpty(s))
+                        log.AppendLine(s);
+
+                    /*==========================================================================
+
                     fi = new FileInfo(fileName);
 
                     if (IsFileType(fileName, "JPEG"))
                     {
-                        /*
-                        img = Image.FromFile(fileName);
-                        try
-                        {
-                            if (img.PropertyIdList.Contains(int.Parse("9003", System.Globalization.NumberStyles.AllowHexSpecifier)))
-                            {
-                                prop = img.GetPropertyItem(int.Parse("9003", System.Globalization.NumberStyles.AllowHexSpecifier));
-                            }
-                            else if (img.PropertyIdList.Contains(int.Parse("9004", System.Globalization.NumberStyles.AllowHexSpecifier)))
-                            {
-                                prop = img.GetPropertyItem(int.Parse("9004", System.Globalization.NumberStyles.AllowHexSpecifier));
-                            }
-                            else if (img.PropertyIdList.Contains(int.Parse("0132", System.Globalization.NumberStyles.AllowHexSpecifier)))
-                            {
-                                prop = img.GetPropertyItem(int.Parse("0132", System.Globalization.NumberStyles.AllowHexSpecifier));
-                            }
-                            else if (File.GetLastWriteTime(fileName) != DateTime.MinValue)
-                            {
-                                strDate = File.GetLastWriteTime(fileName).ToString("yyyyMMdd");
-                            }
-
-                            img.Dispose();
-
-                            if (prop != null)
-                            {
-                                byte[] asciiBytes = prop.Value;
-                                strDate = System.Text.Encoding.ASCII.GetString(asciiBytes);
-                                strDate = strDate.Substring(0, strDate.IndexOf(" ")).Replace(":", "");
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            throw ex;
-                        }
-                        finally
-                        {
-                            if (img != null)
-                            {
-                                img.Dispose();
-                            }
-                        }
-                        */
                         try
                         {
 
                             data = JpegMetadataReader.ReadMetadata(fi);
                             isImage = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.AppendLine("Error reading " + fileName + ": " + ex.Message);
+                        }
+
+                    }
+                    if (IsFileType(fileName, "PNG"))
+                    {
+                        try
+                        {
+                            
                         }
                         catch (Exception ex)
                         {
@@ -237,6 +290,7 @@ namespace PhotoOrganizer
                         }
                         data = null;
                     }
+                    
 
                     if (isImage)
                     {
@@ -263,6 +317,8 @@ namespace PhotoOrganizer
 
                     isImage = false;
 
+                    */
+
                 }
                 catch (Exception ex)
                 {
@@ -287,10 +343,10 @@ namespace PhotoOrganizer
         }
         private void CompareFolders(string sourceFolder, string targetFolder)
         {
-            List<string> sourcefiles = Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
-            List<string> targetfiles = Directory.EnumerateFiles(targetFolder, "*.*", SearchOption.AllDirectories).ToList();
-            List<string> sourcesubdirs = Directory.GetDirectories(sourceFolder).ToList();
-            List<string> targetsubdirs = Directory.GetDirectories(targetFolder).ToList();
+            List<string> sourcefiles = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> targetfiles = System.IO.Directory.EnumerateFiles(targetFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> sourcesubdirs = System.IO.Directory.GetDirectories(sourceFolder).ToList();
+            List<string> targetsubdirs = System.IO.Directory.GetDirectories(targetFolder).ToList();
             List<string> ignored = new List<string>();
 
             foreach (string fileName in sourcefiles)
@@ -337,7 +393,12 @@ namespace PhotoOrganizer
                     fileName.ToUpper().EndsWith("OGG") ||
                     fileName.ToUpper().EndsWith("MPG") ||
                     fileName.ToUpper().EndsWith("MPEG") ||
-                    fileName.ToUpper().EndsWith("M4V");
+                    fileName.ToUpper().EndsWith("M4V") ||
+                    fileName.ToUpper().EndsWith("MP4");
+            }
+            if (type == "PNG")
+            {
+                return fileName.ToUpper().EndsWith("PNG");
             }
             return false;
         }
@@ -359,11 +420,11 @@ namespace PhotoOrganizer
             bool failure = false;
             string imgPath = sourceFolder + @"\" + imgName;
 
-            if (!Directory.Exists(sourceFolder))
+            if (!System.IO.Directory.Exists(sourceFolder))
             {
                 try
                 {
-                    Directory.CreateDirectory(sourceFolder);
+                    System.IO.Directory.CreateDirectory(sourceFolder);
                 }
                 catch (Exception ex)
                 {

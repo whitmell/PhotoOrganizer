@@ -81,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 87);
+            this.label2.Location = new System.Drawing.Point(12, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 13);
             this.label2.TabIndex = 4;
@@ -89,7 +89,7 @@
             // 
             // txtDest
             // 
-            this.txtDest.Location = new System.Drawing.Point(118, 80);
+            this.txtDest.Location = new System.Drawing.Point(118, 65);
             this.txtDest.Name = "txtDest";
             this.txtDest.Size = new System.Drawing.Size(295, 20);
             this.txtDest.TabIndex = 5;
@@ -97,7 +97,7 @@
             // btnBrowseDest
             // 
             this.btnBrowseDest.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.btnBrowseDest.Location = new System.Drawing.Point(427, 80);
+            this.btnBrowseDest.Location = new System.Drawing.Point(427, 65);
             this.btnBrowseDest.Name = "btnBrowseDest";
             this.btnBrowseDest.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseDest.TabIndex = 6;
