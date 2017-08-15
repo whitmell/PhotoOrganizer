@@ -40,6 +40,9 @@
             this.Message = new System.Windows.Forms.Label();
             this.copyCheck = new System.Windows.Forms.CheckBox();
             this.CompareButton = new System.Windows.Forms.Button();
+            this.CompareVidsButton = new System.Windows.Forms.Button();
+            this.SortByType = new System.Windows.Forms.Button();
+            this.renameVidsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtSource
@@ -72,9 +75,9 @@
             // 
             this.btnGo.Location = new System.Drawing.Point(221, 158);
             this.btnGo.Name = "btnGo";
-            this.btnGo.Size = new System.Drawing.Size(75, 23);
+            this.btnGo.Size = new System.Drawing.Size(125, 23);
             this.btnGo.TabIndex = 3;
-            this.btnGo.Text = "GO!";
+            this.btnGo.Text = "Sort By Date";
             this.btnGo.UseVisualStyleBackColor = true;
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
             // 
@@ -128,18 +131,51 @@
             // 
             // CompareButton
             // 
-            this.CompareButton.Location = new System.Drawing.Point(427, 157);
+            this.CompareButton.Location = new System.Drawing.Point(406, 124);
             this.CompareButton.Name = "CompareButton";
-            this.CompareButton.Size = new System.Drawing.Size(75, 23);
+            this.CompareButton.Size = new System.Drawing.Size(96, 23);
             this.CompareButton.TabIndex = 10;
-            this.CompareButton.Text = "Compare";
+            this.CompareButton.Text = "Compare Pics";
             this.CompareButton.UseVisualStyleBackColor = true;
+            // 
+            // CompareVidsButton
+            // 
+            this.CompareVidsButton.Location = new System.Drawing.Point(407, 158);
+            this.CompareVidsButton.Name = "CompareVidsButton";
+            this.CompareVidsButton.Size = new System.Drawing.Size(95, 23);
+            this.CompareVidsButton.TabIndex = 11;
+            this.CompareVidsButton.Text = "Compare Vids";
+            this.CompareVidsButton.UseVisualStyleBackColor = true;
+            this.CompareVidsButton.Click += new System.EventHandler(this.CompareVidsButton_Click);
+            // 
+            // SortByType
+            // 
+            this.SortByType.Location = new System.Drawing.Point(221, 124);
+            this.SortByType.Name = "SortByType";
+            this.SortByType.Size = new System.Drawing.Size(125, 23);
+            this.SortByType.TabIndex = 12;
+            this.SortByType.Text = "Sort By Type";
+            this.SortByType.UseVisualStyleBackColor = true;
+            this.SortByType.Click += new System.EventHandler(this.SortByType_Click);
+            // 
+            // renameVidsBtn
+            // 
+            this.renameVidsBtn.Location = new System.Drawing.Point(221, 192);
+            this.renameVidsBtn.Name = "renameVidsBtn";
+            this.renameVidsBtn.Size = new System.Drawing.Size(125, 23);
+            this.renameVidsBtn.TabIndex = 13;
+            this.renameVidsBtn.Text = "Rename Vids";
+            this.renameVidsBtn.UseVisualStyleBackColor = true;
+            this.renameVidsBtn.Click += new System.EventHandler(this.renameVidsBtn_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 193);
+            this.ClientSize = new System.Drawing.Size(522, 219);
+            this.Controls.Add(this.renameVidsBtn);
+            this.Controls.Add(this.SortByType);
+            this.Controls.Add(this.CompareVidsButton);
             this.Controls.Add(this.CompareButton);
             this.Controls.Add(this.copyCheck);
             this.Controls.Add(this.Message);
@@ -171,6 +207,9 @@
         private System.Windows.Forms.Label Message;
         private System.Windows.Forms.CheckBox copyCheck;
         private System.Windows.Forms.Button CompareButton;
+        private System.Windows.Forms.Button CompareVidsButton;
+        private System.Windows.Forms.Button SortByType;
+        private System.Windows.Forms.Button renameVidsBtn;
     }
 }
 
