@@ -49,6 +49,7 @@ namespace PhotoOrganizer
             worker.WorkerSupportsCancellation = true;
             worker.DoWork += new DoWorkEventHandler(DoWork); //(txtSource.Text, txtDest.Text));
             worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Completed);
+            worker.ProgressChanged += new ProgressChangedEventHandler(UpdateProgress);
 
 
             string message = string.Empty;
@@ -63,6 +64,15 @@ namespace PhotoOrganizer
                     break;
                 case "videos":
                     message = "Processing Videos";
+                    break;
+                case "heic":
+                    message = "Comparing HEIC to JPG";
+                    break;
+                case "short":
+                    message = "Separating Short Videos";
+                    break;
+                case "hevc":
+                    message = "Separating HEVC Videos";
                     break;
                 default:
                     break;
@@ -82,13 +92,23 @@ namespace PhotoOrganizer
             }
         }
 
+        private void UpdateProgress(object sender, ProgressChangedEventArgs e)
+        {
+            Message.Text = $"{e.ProgressPercentage}% complete";
+        }
+
         private void CompareClick(object sender, EventArgs e)
         {
             _action = "compare";
             HandleButtonClick(sender, e);
         }
 
-        private void btnGo_Click(object sender, EventArgs e)
+        private void mergeHEIC_Click(object sender, EventArgs e)
+        {
+            _action = "heic";
+            HandleButtonClick(sender, e);
+    }
+    private void btnGo_Click(object sender, EventArgs e)
         {
             _action = "organize";
             HandleButtonClick(sender, e);
@@ -133,20 +153,31 @@ namespace PhotoOrganizer
                 case "type":
                     OrganizeType(_sourceFolder, _destFolder);
                     break;
+                case "heic":
+                    MergeHEIC(_sourceFolder, _destFolder);
+                    break;
+                case "short":
+                    RemoveShortVideos(_sourceFolder, (p) => { worker.ReportProgress(p); });
+                    break;
+                case "hevc":
+                    SeparateHEVC(_sourceFolder, (p) => { worker.ReportProgress(p); });
+                    break;
                 default:
                     break;
             }
 
             Debug.WriteLine(log.ToString());
 
-            //using (StreamWriter w = File.AppendText(logPath))
-            //{
-            //    w.WriteLine(log.ToString());
-            //    w.Flush();
-            //    w.Close();
-            //}
-            
+            using (StreamWriter w = File.AppendText(logPath))
+            {
+                w.WriteLine(log.ToString());
+                w.Flush();
+                w.Close();
+            }
+
         }
+        
+
         private void Completed(object sender, RunWorkerCompletedEventArgs args)
         {
             if (args.Error != null && !string.IsNullOrEmpty(args.Error.Message))
@@ -442,9 +473,9 @@ namespace PhotoOrganizer
 
         private void CompareVideos(string sourceFolder, string targetFolder)
         {
-            
+
             List<string> files = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.TopDirectoryOnly).ToList();
-            List<VidFile> sourceVids = new List<VidFile>(), 
+            List<VidFile> sourceVids = new List<VidFile>(),
                 targetVids = new List<VidFile>();
 
             foreach (var file in files.Where(x => "MOV|MP4|M4V|MPG|MPEG|AVI|3GP".Contains(Path.GetExtension(x).Replace(".", "").ToUpper())))
@@ -454,7 +485,7 @@ namespace PhotoOrganizer
                 if (properties == null)
                     continue;
 
-                DateTime fileDate = DateTime.MinValue, created = DateTime.MinValue ;
+                DateTime fileDate = DateTime.MinValue, created = DateTime.MinValue;
                 long duration = 0, filesize = 0;
                 var vid = new VidFile() { Path = file };
 
@@ -462,22 +493,22 @@ namespace PhotoOrganizer
                 {
                     if (p.Key.ToUpper().Contains("FILE") && p.Key.ToUpper().Contains("DATE"))
                     {
-                        if(DateTime.TryParseExact(p.Value, "ddd MMM dd HH:mm:ss zzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fileDate))
+                        if (DateTime.TryParseExact(p.Value, "ddd MMM dd HH:mm:ss zzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fileDate))
                             vid.FileDate = fileDate;
                     }
                     if (p.Key.ToUpper().Trim() == "DURATION")
                     {
-                        if(long.TryParse(p.Value, out duration))
+                        if (long.TryParse(p.Value, out duration))
                             vid.Duration = duration;
                     }
                     if (p.Key.ToUpper().Trim() == "CREATED")
                     {
-                        if(DateTime.TryParseExact(p.Value, "ddd MMM dd HH:mm:ss yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out created))
+                        if (DateTime.TryParseExact(p.Value, "ddd MMM dd HH:mm:ss yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out created))
                             vid.Created = created;
                     }
                     if (p.Key.ToUpper().Trim() == "FILE SIZE")
                     {
-                        if(!string.IsNullOrEmpty(p.Value))
+                        if (!string.IsNullOrEmpty(p.Value))
                         {
                             if (long.TryParse(Regex.Match(p.Value, @"\d+").Value, out filesize))
                                 vid.FileSize = filesize;
@@ -485,7 +516,7 @@ namespace PhotoOrganizer
                     }
                 }
 
-                if(vid.IsValid)
+                if (vid.IsValid)
                 {
                     sourceVids.Add(vid);
                 }
@@ -539,12 +570,12 @@ namespace PhotoOrganizer
 
             if (!System.IO.Directory.Exists(outputPath))
                 System.IO.Directory.CreateDirectory(outputPath);
-            
+
             using (StreamWriter w = File.AppendText(outputPath + "vidComparison.csv"))
             {
                 w.WriteLine("/* Vid comparison on {0} of '{1}' and '{2}' */", DateTime.Now.ToShortTimeString(), sourceFolder, targetFolder);
 
-                foreach(var s in sourceVids)
+                foreach (var s in sourceVids)
                 {
                     var t = targetVids.FirstOrDefault(x => x.Equals(s));
                     if (t != null)
@@ -557,7 +588,98 @@ namespace PhotoOrganizer
                 w.Flush();
                 w.Close();
             }
-            
+
+        }
+        private void RemoveShortVideos(string sourceFolder, Action<int> updatePercent)
+        {
+
+            List<string> files = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.TopDirectoryOnly).ToList();
+            List<VidFile> sourceVids = new List<VidFile>(),
+                targetVids = new List<VidFile>();
+            int count = files.Count();
+            int current = 1;
+            foreach (var file in files.Where(x => "MOV|MP4|M4V|MPG|MPEG|AVI|3GP".Contains(Path.GetExtension(x).Replace(".", "").ToUpper())))
+            {
+                updatePercent((int)(current * 100 / count));
+                try
+                {
+                    var properties = GetMetadata(file);
+
+                    if (properties == null)
+                        continue;
+
+                    DateTime fileDate = DateTime.MinValue, created = DateTime.MinValue;
+                    long duration = 0;
+                    var vid = new VidFile() { Path = file };
+
+                    var p = properties.FirstOrDefault(x => x.Key.ToUpper().Contains("DURATION")).Value;
+                    if (p != null)
+                    {
+                        if (long.TryParse(p, out duration))
+                        {
+                            vid.Duration = duration;
+                            sourceVids.Add(vid);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+
+                }
+
+                current++;
+            }
+
+            string outputPath = sourceFolder + "\\Short\\";
+
+            if (!System.IO.Directory.Exists(outputPath))
+                System.IO.Directory.CreateDirectory(outputPath);
+            foreach (var s in sourceVids.Where(x => x.Duration < 3000))
+            {
+                File.Move(s.Path, outputPath + Path.GetFileName(s.Path));
+            }
+
+        }
+        private void SeparateHEVC(string sourceFolder, Action<int> updatePercent)
+        {
+            List<string> files = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.TopDirectoryOnly)
+                .Where(x => !Path.GetFileNameWithoutExtension(x).ToUpper().EndsWith("_HEVC"))
+                .ToList();
+            int count = files.Count();
+            int current = 1;
+
+            if (!System.IO.Directory.Exists($"{sourceFolder}\\HEVC"))
+                System.IO.Directory.CreateDirectory($"{sourceFolder}\\HEVC");
+            if (!System.IO.Directory.Exists($"{sourceFolder}\\MOV"))
+                System.IO.Directory.CreateDirectory($"{sourceFolder}\\MOV");
+
+            using (StreamWriter writer = new StreamWriter($"{sourceFolder}\\HEVC\\Log.txt"))
+            {
+                foreach (var file in files.Where(x => "MOV|MP4|M4V|MPG|MPEG|AVI|3GP".Contains(Path.GetExtension(x).Replace(".", "").ToUpper())))
+                {
+                    updatePercent((int)(current * 100 / count));
+                    try
+                    {
+                        var hevcPath = file.Replace(Path.GetExtension(file), $"_HEVC{Path.GetExtension(file)}");
+                        if (File.Exists(hevcPath))
+                        {
+                            File.Move(hevcPath, $"{sourceFolder}\\HEVC\\{Path.GetFileName(hevcPath)}");
+                        }
+                        else
+                        {
+                            File.Move(file, $"{sourceFolder}\\MOV\\{Path.GetFileName(file)}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+
+                    }
+
+                    current++;
+                }
+            }
         }
 
         private void CompareFolders(string sourceFolder, string targetFolder)
@@ -589,6 +711,27 @@ namespace PhotoOrganizer
                 {
                     log.AppendLine("   - " + s);
                 }
+            }
+        }
+        private void MergeHEIC(string sourceFolder, string destFolder)
+        {
+            List<string> heicfiles = System.IO.Directory.EnumerateFiles(sourceFolder, "*.*", SearchOption.AllDirectories).ToList();
+            List<string> jpgfiles = heicfiles.
+                Select(x => x.Replace(sourceFolder, destFolder).Replace(".HEIC", ".JPG"))
+                .ToList();
+            List<string> ignored = new List<string>();
+
+            using (StreamWriter w = File.AppendText($"{destFolder}\\log.csv"))
+            {
+                foreach(var f in jpgfiles)
+                {
+                    if(!File.Exists(f))
+                    {
+                        w.WriteLine(f);
+                    }
+                }
+                w.Flush();
+                w.Close();
             }
         }
 
@@ -764,6 +907,19 @@ namespace PhotoOrganizer
                 txtSource.Text = folderBrowserDialog1.SelectedPath;
             }
         }
+        
+
+        private void removeShortVids_Click(object sender, EventArgs e)
+        {
+            _action = "short";
+            HandleButtonClick(sender, e);
+        }
+
+        private void handleHEVC_Click(object sender, EventArgs e)
+        {
+            _action = "hevc";
+            HandleButtonClick(sender, e);
+        }
 
         private void btnBrowseDest_Click(object sender, EventArgs e)
         {
@@ -786,6 +942,7 @@ namespace PhotoOrganizer
             {
                 Message.Text = "Completed Successfully!";
             }
+
 
             txtDest.Enabled = true;
             txtSource.Enabled = true;

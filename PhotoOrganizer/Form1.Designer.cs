@@ -43,6 +43,9 @@
             this.CompareVidsButton = new System.Windows.Forms.Button();
             this.SortByType = new System.Windows.Forms.Button();
             this.renameVidsBtn = new System.Windows.Forms.Button();
+            this.mergeHEIC = new System.Windows.Forms.Button();
+            this.removeShortVids = new System.Windows.Forms.Button();
+            this.handleHEVC = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtSource
@@ -131,18 +134,18 @@
             // 
             // CompareButton
             // 
-            this.CompareButton.Location = new System.Drawing.Point(406, 124);
+            this.CompareButton.Location = new System.Drawing.Point(363, 124);
             this.CompareButton.Name = "CompareButton";
-            this.CompareButton.Size = new System.Drawing.Size(96, 23);
+            this.CompareButton.Size = new System.Drawing.Size(125, 23);
             this.CompareButton.TabIndex = 10;
             this.CompareButton.Text = "Compare Pics";
             this.CompareButton.UseVisualStyleBackColor = true;
             // 
             // CompareVidsButton
             // 
-            this.CompareVidsButton.Location = new System.Drawing.Point(407, 158);
+            this.CompareVidsButton.Location = new System.Drawing.Point(363, 158);
             this.CompareVidsButton.Name = "CompareVidsButton";
-            this.CompareVidsButton.Size = new System.Drawing.Size(95, 23);
+            this.CompareVidsButton.Size = new System.Drawing.Size(125, 23);
             this.CompareVidsButton.TabIndex = 11;
             this.CompareVidsButton.Text = "Compare Vids";
             this.CompareVidsButton.UseVisualStyleBackColor = true;
@@ -168,11 +171,44 @@
             this.renameVidsBtn.UseVisualStyleBackColor = true;
             this.renameVidsBtn.Click += new System.EventHandler(this.renameVidsBtn_Click);
             // 
+            // mergeHEIC
+            // 
+            this.mergeHEIC.Location = new System.Drawing.Point(363, 192);
+            this.mergeHEIC.Name = "mergeHEIC";
+            this.mergeHEIC.Size = new System.Drawing.Size(125, 23);
+            this.mergeHEIC.TabIndex = 14;
+            this.mergeHEIC.Text = "Merge HEIC";
+            this.mergeHEIC.UseVisualStyleBackColor = true;
+            this.mergeHEIC.Click += new System.EventHandler(this.mergeHEIC_Click);
+            // 
+            // removeShortVids
+            // 
+            this.removeShortVids.Location = new System.Drawing.Point(221, 227);
+            this.removeShortVids.Name = "removeShortVids";
+            this.removeShortVids.Size = new System.Drawing.Size(125, 23);
+            this.removeShortVids.TabIndex = 15;
+            this.removeShortVids.Text = "Remove Short Vids";
+            this.removeShortVids.UseVisualStyleBackColor = true;
+            this.removeShortVids.Click += new System.EventHandler(this.removeShortVids_Click);
+            // 
+            // handleHEVC
+            // 
+            this.handleHEVC.Location = new System.Drawing.Point(363, 228);
+            this.handleHEVC.Name = "handleHEVC";
+            this.handleHEVC.Size = new System.Drawing.Size(125, 23);
+            this.handleHEVC.TabIndex = 16;
+            this.handleHEVC.Text = "Handle HEVC";
+            this.handleHEVC.UseVisualStyleBackColor = true;
+            this.handleHEVC.Click += new System.EventHandler(this.handleHEVC_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 219);
+            this.ClientSize = new System.Drawing.Size(522, 263);
+            this.Controls.Add(this.handleHEVC);
+            this.Controls.Add(this.removeShortVids);
+            this.Controls.Add(this.mergeHEIC);
             this.Controls.Add(this.renameVidsBtn);
             this.Controls.Add(this.SortByType);
             this.Controls.Add(this.CompareVidsButton);
@@ -210,6 +246,9 @@
         private System.Windows.Forms.Button CompareVidsButton;
         private System.Windows.Forms.Button SortByType;
         private System.Windows.Forms.Button renameVidsBtn;
+        private System.Windows.Forms.Button mergeHEIC;
+        private System.Windows.Forms.Button removeShortVids;
+        private System.Windows.Forms.Button handleHEVC;
     }
 }
 
