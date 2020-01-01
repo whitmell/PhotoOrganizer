@@ -9,12 +9,12 @@ After building the project, open PhotoOrganizer.exe and select your source and d
 - Make Copy?: when checked, will copy the files to the destination.  When unchecked, original files will be moved.
 - Sort By Type: Destination folder will contain subdirectories by filetype.
 - Sort By Date: Destination folder will contain directory structure based on identified file date.  Structure is as follows:
-        - Year
-          - Month (mm)
-            - Day (yyyymmdd)
-              - file
-        - Videos
-          - video files
+  - Year
+    - Month (mm)
+      - Day (yyyymmdd)
+        - file
+  - Videos
+    - video files
 - Rename Vids: Copy video files to directory "Renamed", adding a prefix of the video date (yyyymmdd) to the filename
 - Remove Short Vids: Move video files less than 3 seconds to directory "Short"
 - Compare Pics: Identify photos from source directory not found in destination directory (compare by name), write results to logfile in destination directory
