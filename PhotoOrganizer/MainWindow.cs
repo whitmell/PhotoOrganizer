@@ -24,8 +24,8 @@ namespace PhotoOrganizer
             InitializeComponent();
             CompareButton.Click += new EventHandler(CompareClick);
             Message.Text = string.Empty;
-            txtSource.Text = @"C:\Users\Whit\Pictures\IN";
-            txtDest.Text = @"C:\Users\Whit\Pictures\OUT";
+            txtSource.Text = string.Empty;
+            txtDest.Text = string.Empty;
             log = new StringBuilder();
 
         }

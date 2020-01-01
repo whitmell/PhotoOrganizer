@@ -1,12 +1,20 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>XmpCore.Portable</name>
+        <name>XmpCore</name>
     </assembly>
     <members>
         <member name="T:XmpCore.Impl.ByteBuffer">
             <summary>Byte buffer container including length of valid data.</summary>
+            <author>Stefan Makswit</author>
             <since>11.10.2006</since>
+        </member>
+        <member name="P:XmpCore.Impl.ByteBuffer.Length">
+            <value>
+            Returns the length, that means the number of valid bytes, of the buffer;
+            the inner byte array might be bigger than that.
+            the inner byte array might be bigger than that.
+            </value>
         </member>
         <member name="M:XmpCore.Impl.ByteBuffer.#ctor(System.Int32)">
             <param name="initialCapacity">the initial capacity for this buffer</param>
@@ -31,12 +39,6 @@
         <member name="M:XmpCore.Impl.ByteBuffer.GetByteStream">
             <returns>Returns a byte stream that is limited to the valid amount of bytes.</returns>
         </member>
-        <member name="M:XmpCore.Impl.ByteBuffer.Length">
-            <returns>
-            Returns the length, that means the number of valid bytes, of the buffer;
-            the inner byte array might be bigger than that.
-            </returns>
-        </member>
         <member name="M:XmpCore.Impl.ByteBuffer.ByteAt(System.Int32)">
             <param name="index">the index to retrieve the byte from</param>
             <returns>Returns a byte from the buffer</returns>
@@ -53,7 +55,7 @@
             <summary>Appends a byte array or part of to the buffer.</summary>
             <param name="bytes">a byte array</param>
             <param name="offset">an offset with</param>
-            <param name="len"/>
+            <param name="len" />
         </member>
         <member name="M:XmpCore.Impl.ByteBuffer.Append(System.Byte[])">
             <summary>Append a byte array to the buffer</summary>
@@ -79,6 +81,7 @@
             <param name="requestedLength">requested new buffer length</param>
         </member>
         <member name="T:XmpCore.Impl.FixAsciiControlsReader">
+            <author>Stefan Makswit</author>
             <since>22.08.2006</since>
         </member>
         <member name="F:XmpCore.Impl.FixAsciiControlsReader._state">
@@ -92,11 +95,11 @@
         </member>
         <member name="M:XmpCore.Impl.FixAsciiControlsReader.#ctor(System.IO.StreamReader)">
             <summary>The look-ahead size is 6 at maximum (&amp;#xAB;)</summary>
-            <seealso cref="M:Sharpen.PushbackReader.#ctor(System.IO.StreamReader,System.Int32)"/>
+            <seealso cref="M:Sharpen.PushbackReader.#ctor(System.IO.StreamReader,System.Int32)" />
             <param name="reader">a Reader</param>
         </member>
         <member name="M:XmpCore.Impl.FixAsciiControlsReader.Read(System.Char[],System.Int32,System.Int32)">
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.FixAsciiControlsReader.ProcessChar(System.Char)">
             <summary>Processes numeric escaped chars to find out if they are a control character.</summary>
@@ -105,6 +108,7 @@
         </member>
         <member name="T:XmpCore.Impl.Iso8601Converter">
             <summary>Converts between ISO 8601 Strings and <c>Calendar</c> with millisecond resolution.</summary>
+            <author>Stefan Makswit</author>
             <since>16.02.2006</since>
         </member>
         <member name="M:XmpCore.Impl.Iso8601Converter.Parse(System.String)">
@@ -137,7 +141,8 @@
             as "%.4d".
             <para />
             <em>Note:</em> Tolerate missing TZD, assume is UTC. Photoshop 8 writes
-            dates like this for exif:GPSTimeStamp.<br />
+            dates like this for exif:GPSTimeStamp.
+            <para />
             <em>Note:</em> DOES NOT APPLY ANYMORE.
             Tolerate missing date portion, in case someone foolishly
             writes a time-only value that way.
@@ -187,7 +192,11 @@
             <returns>Returns an ISO 8601 string.</returns>
         </member>
         <member name="T:XmpCore.Impl.ParseState">
+            <author>Stefan Makswit</author>
             <since>22.08.2006</since>
+        </member>
+        <member name="P:XmpCore.Impl.ParseState.Pos">
+            <returns>Returns the current position.</returns>
         </member>
         <member name="M:XmpCore.Impl.ParseState.#ctor(System.String)">
             <param name="str">initializes the parser container</param>
@@ -205,9 +214,6 @@
         <member name="M:XmpCore.Impl.ParseState.Skip">
             <summary>Skips the next char.</summary>
         </member>
-        <member name="M:XmpCore.Impl.ParseState.Pos">
-            <returns>Returns the current position.</returns>
-        </member>
         <member name="M:XmpCore.Impl.ParseState.GatherInt(System.String,System.Int32)">
             <summary>Parses a integer from the source and sets the pointer after it.</summary>
             <param name="errorMsg">Error message to put in the exception if no number can be found</param>
@@ -216,6 +222,7 @@
             <exception cref="T:XmpCore.XmpException">Thrown if no integer can be found.</exception>
         </member>
         <member name="T:XmpCore.Impl.Latin1Converter">
+            <author>Stefan Makswit</author>
             <since>12.10.2006</since>
         </member>
         <member name="M:XmpCore.Impl.Latin1Converter.Convert(XmpCore.Impl.ByteBuffer)">
@@ -264,6 +271,7 @@
             <returns>Returns a byte array containing a UTF-8 byte sequence.</returns>
         </member>
         <member name="T:XmpCore.Impl.ParameterAsserts">
+            <author>Stefan Makswit</author>
             <since>11.08.2006</since>
         </member>
         <member name="M:XmpCore.Impl.ParameterAsserts.AssertArrayName(System.String)">
@@ -297,17 +305,17 @@
             <exception cref="T:XmpCore.XmpException">Struct name is null or empty</exception>
         </member>
         <member name="M:XmpCore.Impl.ParameterAsserts.AssertNotNull(System.Object)">
-            <summary>Asserts that any string parameter is set.</summary>
-            <param name="param">any string parameter</param>
+            <summary>Asserts that a parameter is not null.</summary>
+            <param name="param">the parameter's value</param>
+            <exception cref="T:XmpCore.XmpException">Thrown if the parameter is null.</exception>
+        </member>
+        <member name="M:XmpCore.Impl.ParameterAsserts.AssertNotNullOrEmpty(System.String)">
+            <summary>Asserts that any string parameter is not null or empty.</summary>
+            <param name="param">a string parameter's value</param>
             <exception cref="T:XmpCore.XmpException">Thrown if the parameter is null or has length 0.</exception>
         </member>
         <member name="M:XmpCore.Impl.ParameterAsserts.AssertImplementation(XmpCore.IXmpMeta)">
-            <summary>
-            Asserts that the xmp object is of this implemention
-            (
-            <see cref="T:XmpCore.Impl.XmpMeta"/>
-            ).
-            </summary>
+            <summary>Asserts that the xmp object is of this implemention (<see cref="T:XmpCore.Impl.XmpMeta" />).</summary>
             <param name="xmp">the XMP object</param>
             <exception cref="T:XmpCore.XmpException">A wrong implentaion is used.</exception>
         </member>
@@ -334,22 +342,24 @@
         </member>
         <member name="T:XmpCore.Impl.ParseRdf">
             <summary>Parser for "normal" XML serialisation of RDF.</summary>
+            <author>Stefan Makswit</author>
             <since>14.07.2006</since>
         </member>
         <member name="F:XmpCore.Impl.ParseRdf.DefaultPrefix">
             <summary>this prefix is used for default namespaces</summary>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Parse(System.Xml.Linq.XElement)">
+        <member name="M:XmpCore.Impl.ParseRdf.Parse(System.Xml.Linq.XElement,XmpCore.Options.ParseOptions)">
             <summary>The main parsing method.</summary>
             <remarks>
             The main parsing method. The XML tree is walked through from the root node and and XMP tree
             is created. This is a raw parse, the normalisation of the XMP tree happens outside.
             </remarks>
             <param name="xmlRoot">the XML root node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <returns>Returns an XMP metadata object (not normalized)</returns>
             <exception cref="T:XmpCore.XmpException">Occurs if the parsing fails for any reason.</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_RDF(XmpCore.Impl.XmpMeta,System.Xml.Linq.XElement)">
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_RDF(XmpCore.Impl.XmpMeta,System.Xml.Linq.XElement,XmpCore.Options.ParseOptions)">
             <summary>
             Each of these parsing methods is responsible for recognizing an RDF
             syntax production and adding the appropriate structure to the XMP tree.
@@ -361,20 +371,25 @@
             </remarks>
             <param name="xmp">the xmp metadata object that is generated</param>
             <param name="rdfRdfNode">the top-level xml node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElementList(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement)">
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElementList(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,XmpCore.Options.ParseOptions)">
             <summary>
-            7.2.10 nodeElementList<br />
+            7.2.10 nodeElementList
+            <para />
             ws* ( nodeElement ws* )
-            Note: this method is only called from the rdf:RDF-node (top level)
             </summary>
+            <remarks>
+            This method is only called from the rdf:RDF-node (top level).
+            </remarks>
             <param name="xmp">the xmp metadata object that is generated</param>
             <param name="xmpParent">the parent xmp node</param>
             <param name="rdfRdfNode">the top-level xml node</param>
+            /// <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <summary>
             7.2.5 nodeElementURIs
             anyURI - ( coreSyntaxTerms | rdf:li | oldTerms )
@@ -390,19 +405,10 @@
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlNode">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElementAttrs(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
-            <summary>
-            7.2.7 propertyAttributeURIs
-            anyURI - ( coreSyntaxTerms | rdf:Description | rdf:li | oldTerms )
-            7.2.11 nodeElement
-            start-element ( URI == nodeElementURIs,
-            attributes == set ( ( idAttr | nodeIdAttr | aboutAttr )?, propertyAttr* ) )
-            propertyEltList
-            end-element()
-            Process the attribute list for an RDF node element.
-            </summary>
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_NodeElementAttrs(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <remarks>
             7.2.7 propertyAttributeURIs
             anyURI - ( coreSyntaxTerms | rdf:Description | rdf:li | oldTerms )
@@ -419,9 +425,10 @@
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlNode">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_PropertyElementList(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_PropertyElementList(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <summary>
             7.2.13 propertyEltList
             ws* ( propertyElt ws* )
@@ -430,49 +437,10 @@
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlParent">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_PropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
-            <summary>
-            7.2.14 propertyElt
-            resourcePropertyElt | literalPropertyElt | parseTypeLiteralPropertyElt |
-            parseTypeResourcePropertyElt | parseTypeCollectionPropertyElt |
-            parseTypeOtherPropertyElt | emptyPropertyElt
-            7.2.15 resourcePropertyElt
-            start-element ( URI == propertyElementURIs, attributes == set ( idAttr? ) )
-            ws* nodeElement ws
-            end-element()
-            7.2.16 literalPropertyElt
-            start-element (
-            URI == propertyElementURIs, attributes == set ( idAttr?, datatypeAttr?) )
-            text()
-            end-element()
-            7.2.17 parseTypeLiteralPropertyElt
-            start-element (
-            URI == propertyElementURIs, attributes == set ( idAttr?, parseLiteral ) )
-            literal
-            end-element()
-            7.2.18 parseTypeResourcePropertyElt
-            start-element (
-            URI == propertyElementURIs, attributes == set ( idAttr?, parseResource ) )
-            propertyEltList
-            end-element()
-            7.2.19 parseTypeCollectionPropertyElt
-            start-element (
-            URI == propertyElementURIs, attributes == set ( idAttr?, parseCollection ) )
-            nodeElementList
-            end-element()
-            7.2.20 parseTypeOtherPropertyElt
-            start-element ( URI == propertyElementURIs, attributes == set ( idAttr?, parseOther ) )
-            propertyEltList
-            end-element()
-            7.2.21 emptyPropertyElt
-            start-element ( URI == propertyElementURIs,
-            attributes == set ( idAttr?, ( resourceAttr | nodeIdAttr )?, propertyAttr* ) )
-            end-element()
-            The various property element forms are not distinguished by the XML element name,
-            but by their attributes for the most part.
-            </summary>
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_PropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <remarks>
             7.2.14 propertyElt
             resourcePropertyElt | literalPropertyElt | parseTypeLiteralPropertyElt |
@@ -514,23 +482,16 @@
             but by their attributes for the most part. The exceptions are resourcePropertyElt and
             literalPropertyElt. They are distinguished by their XML element content.
             NOTE: The RDF syntax does not explicitly include the xml:lang attribute although it can
-            appear in many of these. We have to allow for it in the attibute counts below.
+            appear in many of these. We have to allow for it in the attribute counts below.
             </remarks>
             <param name="xmp">the xmp metadata object that is generated</param>
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlNode">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_ResourcePropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
-            <summary>
-            7.2.15 resourcePropertyElt
-            start-element ( URI == propertyElementURIs, attributes == set ( idAttr? ) )
-            ws* nodeElement ws
-            end-element()
-            This handles structs using an rdf:Description node,
-            arrays using rdf:Bag/Seq/Alt, and typedNodes.
-            </summary>
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_ResourcePropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <remarks>
             7.2.15 resourcePropertyElt
             start-element ( URI == propertyElementURIs, attributes == set ( idAttr? ) )
@@ -544,6 +505,7 @@
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlNode">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
         <member name="M:XmpCore.Impl.ParseRdf.Rdf_LiteralPropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
@@ -571,15 +533,7 @@
             </summary>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <member name="M:XmpCore.Impl.ParseRdf.Rdf_ParseTypeResourcePropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
-            <summary>
-            7.2.18 parseTypeResourcePropertyElt
-            start-element ( URI == propertyElementURIs,
-            attributes == set ( idAttr?, parseResource ) )
-            propertyEltList
-            end-element()
-            Add a new struct node with a qualifier for the possible rdf:ID attribute.
-            </summary>
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_ParseTypeResourcePropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean,XmpCore.Options.ParseOptions)">
             <remarks>
             7.2.18 parseTypeResourcePropertyElt
             start-element ( URI == propertyElementURIs,
@@ -593,6 +547,7 @@
             <param name="xmpParent">the parent xmp node</param>
             <param name="xmlNode">the currently processed XML node</param>
             <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <param name="options">ParseOptions to indicate the parse options provided by the client</param>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
         <member name="M:XmpCore.Impl.ParseRdf.Rdf_ParseTypeCollectionPropertyElement">
@@ -614,7 +569,47 @@
             </summary>
             <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:XmpCore.Impl.ParseRdf.Rdf_EmptyPropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)" -->
+        <member name="M:XmpCore.Impl.ParseRdf.Rdf_EmptyPropertyElement(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.Boolean)">
+            <remarks>
+            7.2.21 emptyPropertyElt
+            start-element ( URI == propertyElementURIs,
+            attributes == set (
+            idAttr?, ( resourceAttr | nodeIdAttr )?, propertyAttr* ) )
+            end-element()
+            &lt;ns:Prop1/&gt;  &lt;!-- a simple property with an empty value --&gt;
+            &lt;ns:Prop2 rdf:resource="http: *www.adobe.com/"/&gt; &lt;!-- a URI value --&gt;
+            &lt;ns:Prop3 rdf:value="..." ns:Qual="..."/&gt; &lt;!-- a simple qualified property --&gt;
+            &lt;ns:Prop4 ns:Field1="..." ns:Field2="..."/&gt; &lt;!-- a struct with simple fields --&gt;
+            An emptyPropertyElt is an element with no contained content, just a possibly empty set of
+            attributes. An emptyPropertyElt can represent three special cases of simple XMP properties: a
+            simple property with an empty value (ns:Prop1), a simple property whose value is a URI
+            (ns:Prop2), or a simple property with simple qualifiers (ns:Prop3).
+            An emptyPropertyElt can also represent an XMP struct whose fields are all simple and
+            unqualified (ns:Prop4).
+            It is an error to use both rdf:value and rdf:resource - that can lead to invalid  RDF in the
+            verbose form written using a literalPropertyElt.
+            The XMP mapping for an emptyPropertyElt is a bit different from generic RDF, partly for
+            design reasons and partly for historical reasons. The XMP mapping rules are:
+            <list type="bullet">
+            <item> If there is an rdf:value attribute then this is a simple property
+            with a text value.
+            All other attributes are qualifiers.</item>
+            <item> If there is an rdf:resource attribute then this is a simple property
+            with a URI value.
+            All other attributes are qualifiers.</item>
+            <item> If there are no attributes other than xml:lang, rdf:ID, or rdf:nodeID
+            then this is a simple
+            property with an empty value.</item>
+            <item> Otherwise this is a struct, the attributes other than xml:lang, rdf:ID,
+            or rdf:nodeID are fields.</item>
+            </list>
+            </remarks>
+            <param name="xmp">the xmp metadata object that is generated</param>
+            <param name="xmpParent">the parent xmp node</param>
+            <param name="xmlNode">the currently processed XML node</param>
+            <param name="isTopLevel">Flag if the node is a top-level node</param>
+            <exception cref="T:XmpCore.XmpException">thrown on parsing errors</exception>
+        </member>
         <member name="M:XmpCore.Impl.ParseRdf.AddChildNode(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,System.Xml.Linq.XElement,System.String,System.Boolean)">
             <summary>Adds a child node.</summary>
             <param name="xmp">the xmp metadata object that is generated</param>
@@ -666,7 +661,8 @@
         </member>
         <member name="M:XmpCore.Impl.ParseRdf.IsOldTerm(XmpCore.Impl.RdfTerm)">
             <summary>
-            7.2.4 oldTerms<br />
+            7.2.4 oldTerms
+            <para />
             rdf:aboutEach | rdf:aboutEachPrefix | rdf:bagID
             </summary>
             <param name="term">the term id</param>
@@ -674,7 +670,8 @@
         </member>
         <member name="M:XmpCore.Impl.ParseRdf.IsCoreSyntaxTerm(XmpCore.Impl.RdfTerm)">
             <summary>
-            7.2.2 coreSyntaxTerms<br />
+            7.2.2 coreSyntaxTerms
+            <para />
             rdf:RDF | rdf:ID | rdf:about | rdf:parseType | rdf:resource | rdf:nodeID |
             rdf:datatype
             </summary>
@@ -683,21 +680,18 @@
         </member>
         <member name="M:XmpCore.Impl.ParseRdf.GetRdfTermKind(System.Xml.Linq.XElement)">
             <summary>Determines the ID for a certain RDF Term.</summary>
-            <remarks>
-            Determines the ID for a certain RDF Term.
-            Arranged to hopefully minimize the parse time for large XMP.
-            </remarks>
+            <remarks>Arranged to hopefully minimize the parse time for large XMP.</remarks>
             <param name="node">an XML node</param>
             <returns>Returns the term ID.</returns>
         </member>
+        <member name="M:XmpCore.Impl.ParseRdf.IsNumberedArrayItemName(System.String)">
+            <summary>Check if the child name</summary>
+            <param name="nodeName">an XML node</param>
+            <returns>Returns bool</returns>
+        </member>
         <member name="T:XmpCore.Impl.QName">
+            <author>Stefan Makswit</author>
             <since>09.11.2006</since>
-        </member>
-        <member name="F:XmpCore.Impl.QName._prefix">
-            <summary>XML namespace prefix</summary>
-        </member>
-        <member name="F:XmpCore.Impl.QName._localName">
-            <summary>XML localname</summary>
         </member>
         <member name="M:XmpCore.Impl.QName.#ctor(System.String)">
             <summary>Splits a qname into prefix and localname.</summary>
@@ -708,17 +702,20 @@
             <param name="prefix">the prefix</param>
             <param name="localName">the name</param>
         </member>
-        <member name="M:XmpCore.Impl.QName.HasPrefix">
-            <returns>Returns whether the QName has a prefix.</returns>
+        <member name="P:XmpCore.Impl.QName.HasPrefix">
+            <value>Returns whether the QName has a prefix.</value>
         </member>
-        <member name="M:XmpCore.Impl.QName.GetLocalName">
-            <returns>the localName</returns>
+        <member name="P:XmpCore.Impl.QName.LocalName">
+            <summary>XML localname</summary>
+            <value>the localName</value>
         </member>
-        <member name="M:XmpCore.Impl.QName.GetPrefix">
-            <returns>the prefix</returns>
+        <member name="P:XmpCore.Impl.QName.Prefix">
+            <summary>XML namespace prefix</summary>
+            <value>the prefix</value>
         </member>
         <member name="T:XmpCore.Impl.Utils">
             <summary>Utility functions for the XMPToolkit implementation.</summary>
+            <author>Stefan Makswit</author>
             <since>06.06.2006</since>
         </member>
         <member name="F:XmpCore.Impl.Utils.UuidSegmentCount">
@@ -736,42 +733,37 @@
         <member name="M:XmpCore.Impl.Utils.NormalizeLangValue(System.String)">
             <summary>
             Normalize an xml:lang value so that comparisons are effectively case
-            insensitive as required by RFC 3066 (which superceeds RFC 1766).
+            insensitive as required by RFC 3066 (which supersedes RFC 1766).
             </summary>
             <remarks>
-            Normalize an xml:lang value so that comparisons are effectively case
-            insensitive as required by RFC 3066 (which superceeds RFC 1766). The
-            normalization rules:
+            The normalization rules:
             <list type="bullet">
-            <item> The primary subtag is lower case, the suggested practice of ISO 639.</item>
-            <item> All 2 letter secondary subtags are upper case, the suggested
-            practice of ISO 3166.</item>
-            <item> All other subtags are lower case.</item>
+              <item>The primary subtag is lower case, the suggested practice of ISO 639.</item>
+              <item>All 2 letter secondary subtags are upper case, the suggested practice of ISO 3166.</item>
+              <item>All other subtags are lower case.</item>
             </list>
             </remarks>
             <param name="value">raw value</param>
             <returns>Returns the normalized value.</returns>
         </member>
-        <member name="M:XmpCore.Impl.Utils.SplitNameAndValue(System.String)">
+        <member name="M:XmpCore.Impl.Utils.SplitNameAndValue(System.String,System.String@,System.String@)">
             <summary>
-            Split the name and value parts for field and qualifier selectors:
+            Split the name and value parts for field and qualifier selectors.
             </summary>
             <remarks>
-            Split the name and value parts for field and qualifier selectors:
             <list type="bullet">
-            <item>[qualName="value"] - An element in an array of structs, chosen by a field value.</item>
-            <item>[?qualName="value"] - An element in an array, chosen by a qualifier value.</item>
+              <item><c>[qualName="value"]</c> - An element in an array of structs, chosen by a field value.</item>
+              <item><c>[?qualName="value"]</c> - An element in an array, chosen by a qualifier value.</item>
             </list>
-            The value portion is a string quoted by ''' or '"'. The value may contain
+            The value portion is a string quoted by <c>'</c> or <c>"</c>. The value may contain
             any character including a doubled quoting character. The value may be
-            empty. <em>Note:</em> It is assumed that the expression is formal
-            correct
+            empty.
+            <para />
+            <em>Note:</em> It is assumed that the expression is formal correct.
             </remarks>
-            <param name="selector">the selector</param>
-            <returns>
-            Returns an array where the first entry contains the name and the
-            second the value.
-            </returns>
+            <param name="selector">The selector</param>
+            <param name="name">The name string</param>
+            <param name="value">The value string</param>
         </member>
         <member name="M:XmpCore.Impl.Utils.IsInternalProperty(System.String,System.String)">
             <param name="schema">a schema namespace</param>
@@ -785,19 +777,20 @@
             <summary>
             Check some requirements for an UUID:
             <list type="bullet">
-            <item>Length of the UUID is 32</item>
-            <item>The Delimiter count is 4 and all the 4 delimiter are on their right
-            position (8,13,18,23)</item>
+              <item>Length of the UUID is 32</item>
+              <item>The Delimiter count is 4 and all the 4 delimiter are on their right position (8,13,18,23)</item>
             </list>
             </summary>
             <param name="uuid">uuid to test</param>
             <returns>true - this is a well formed UUID, false - UUID has not the expected format</returns>
         </member>
         <member name="M:XmpCore.Impl.Utils.IsXmlName(System.String)">
-            <summary>Simple check for valid XMLNames.</summary>
+            <summary>Simple check for valid XML names.</summary>
             <remarks>
-            Simple check for valid XMLNames. Within ASCII range<br />
-            ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6]<br />
+            Within ASCII range
+            <para />
+            ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6]
+            <para />
             are accepted, above all characters (which is not entirely
             correct according to the XML Spec.
             </remarks>
@@ -810,8 +803,6 @@
             defined in the XML Namespaces proposed recommendation.
             </summary>
             <remarks>
-            Checks if the value is a legal "unqualified" XML name, as
-            defined in the XML Namespaces proposed recommendation.
             These are XML names, except that they must not contain a colon.
             </remarks>
             <param name="name">the value to check</param>
@@ -824,10 +815,11 @@
         <member name="M:XmpCore.Impl.Utils.EscapeXml(System.String,System.Boolean,System.Boolean)">
             <summary>Serializes the node value in XML encoding.</summary>
             <remarks>
-            Serializes the node value in XML encoding. Its used for tag bodies and
-            attributes.<br />
+            Its used for tag bodies and attributes.
+            <para />
             <em>Note:</em> The attribute is always limited by quotes,
-            thats why <c>&amp;apos;</c> is never serialized.<br />
+            thats why <c>&amp;apos;</c> is never serialized.
+            <para />
             <em>Note:</em> Control chars are written unescaped, but if the user uses others than tab, LF
             and CR the resulting XML will become invalid.
             </remarks>
@@ -860,22 +852,16 @@
             <param name="ch">a character</param>
             <returns>Returns true if the character is a valid char of an XML name.</returns>
         </member>
-        <member name="M:XmpCore.Impl.Utils.InitCharTables">
-            <summary>
-            Initializes the char tables for the chars 0x00-0xFF for later use,
-            according to the XML 1.1 specification
-            http://www.w3.org/TR/xml11
-            </summary>
-        </member>
         <member name="T:XmpCore.Impl.XmpDateTime">
-            <summary>The default implementation of <see cref="T:XmpCore.IXmpDateTime"/>.</summary>
+            <summary>The default implementation of <see cref="T:XmpCore.IXmpDateTime" />.</summary>
+            <author>Stefan Makswit</author>
             <since>16.02.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpDateTime._timeZone">
             <summary>Use NO time zone as default</summary>
         </member>
         <member name="F:XmpCore.Impl.XmpDateTime._nanoseconds">
-            <summary>The nano seconds take micro and nano seconds, while the milli seconds are in the calendar.</summary>
+            <summary>The nanoseconds take micro and nano seconds, while the milliseconds are in the calendar.</summary>
         </member>
         <member name="M:XmpCore.Impl.XmpDateTime.#ctor">
             <summary>
@@ -916,6 +902,7 @@
             During the iteration the XMPMeta-object must not be changed.
             Calls to <c>skipSubtree()</c> / <c>skipSiblings()</c> will affect the iteration.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>29.06.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpIterator._skipSiblings">
@@ -930,7 +917,7 @@
             <param name="xmp">the iterated metadata object.</param>
             <param name="schemaNs">the iteration is reduced to this schema (optional)</param>
             <param name="propPath">the iteration is reduced to this property within the <c>schemaNS</c></param>
-            <param name="options">advanced iteration options, see <see cref="T:XmpCore.Options.IteratorOptions"/></param>
+            <param name="options">advanced iteration options, see <see cref="T:XmpCore.Options.IteratorOptions" /></param>
             <exception cref="T:XmpCore.XmpException">If the node defined by the parameters is not existing.</exception>
         </member>
         <member name="P:XmpCore.Impl.XmpIterator.BaseNamespace">
@@ -942,6 +929,7 @@
             The <c>XMPIterator</c> implementation.
             It first returns the node itself, then recursively the children and qualifier of the node.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>29.06.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpIterator.NodeIterator.IterateNode">
@@ -1020,6 +1008,13 @@
             <param name="path">the full property path</param>
             <returns>Returns a <c>XMPProperty</c>-object that serves representation of the node.</returns>
         </member>
+        <member name="T:XmpCore.Impl.XmpIterator.NodeIterator.XmpPropertyInfo">
+            <remarks>
+            Originally called "XmpPropertyInfo450"
+            "450" was the line number in XMPIteratorImpl.java of the Adobe Java 5.1.2 source file
+            This class was anonymous, but that is unnecessary here
+            </remarks>
+        </member>
         <member name="M:XmpCore.Impl.XmpIterator.NodeIterator.GetReturnProperty">
             <returns>Returns the returnProperty.</returns>
         </member>
@@ -1031,6 +1026,7 @@
             This iterator is derived from the default <c>NodeIterator</c>,
             and is only used for the option <see cref="F:XmpCore.Options.IteratorOptions.JustChildren"/>.
             </summary>
+            <author>Stefan Makswit</author>
             <since>02.10.2006</since>
         </member>
         <member name="M:XmpCore.Impl.XmpIterator.NodeIteratorChildren.#ctor(XmpCore.Impl.XmpIterator,XmpCore.Impl.XmpNode,System.String)">
@@ -1046,6 +1042,7 @@
             <summary>
             Implementation of <see cref="T:XmpCore.IXmpMeta"/>.
             </summary>
+            <author>Stefan Makswit</author>
             <since>17.02.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpMeta.ValueType.String">
@@ -1068,28 +1065,28 @@
             </param>
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.AppendArrayItem(System.String,System.String,XmpCore.Options.PropertyOptions,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.AppendArrayItem(System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.CountArrayItems(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetArrayItem(System.String,System.String,System.Int32)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetLocalizedText(System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetLocalizedText(System.String,System.String,System.String,System.String,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetLocalizedText(System.String,System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetProperty(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetProperty(System.String,System.String,XmpCore.Impl.XmpMeta.ValueType)">
             <summary>Returns a property, but the result value can be requested.</summary>
@@ -1101,6 +1098,13 @@
             <param name="valueType">the type of the value, see VALUE_...</param>
             <returns>Returns an <c>XMPProperty</c></returns>
             <exception cref="T:XmpCore.XmpException">Collects any exception that occurs.</exception>
+        </member>
+        <member name="T:XmpCore.Impl.XmpMeta.XmpProperty">
+            <remarks>
+            Combines the two ported classes XmpProperty407 and XmpProperty682
+            "407" and "682" were the line numbers in XMPMetaImpl.java of the Adobe Java 5.1.2 source file
+            These classes were anonymous, and that is unnecessary here
+            </remarks>
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyObject(System.String,System.String,XmpCore.Impl.XmpMeta.ValueType)">
             <summary>Returns a property, but the result value can be requested.</summary>
@@ -1114,106 +1118,106 @@
             <exception cref="T:XmpCore.XmpException">Collects any exception that occurs.</exception>
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyBoolean(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyBoolean(System.String,System.String,System.Boolean,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyBoolean(System.String,System.String,System.Boolean)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyInteger(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyInteger(System.String,System.String,System.Int32,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyInteger(System.String,System.String,System.Int32)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyLong(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyLong(System.String,System.String,System.Int64,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyLong(System.String,System.String,System.Int64)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyDouble(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyDouble(System.String,System.String,System.Double,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyDouble(System.String,System.String,System.Double)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyDate(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyDate(System.String,System.String,XmpCore.IXmpDateTime,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyDate(System.String,System.String,XmpCore.IXmpDateTime)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyCalendar(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyCalendar(System.String,System.String,Sharpen.Calendar,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyCalendar(System.String,System.String,Sharpen.Calendar)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyBase64(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetPropertyString(System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyBase64(System.String,System.String,System.Byte[],XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPropertyBase64(System.String,System.String,System.Byte[])">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetQualifier(System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetStructField(System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetArrayItem(System.String,System.String,System.Int32,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetArrayItem(System.String,System.String,System.Int32,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.InsertArrayItem(System.String,System.String,System.Int32,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.InsertArrayItem(System.String,System.String,System.Int32,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetProperty(System.String,System.String,System.Object,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetProperty(System.String,System.String,System.Object)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetQualifier(System.String,System.String,System.String,System.String,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetQualifier(System.String,System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetStructField(System.String,System.String,System.String,System.String,System.String,XmpCore.Options.PropertyOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetStructField(System.String,System.String,System.String,System.String,System.String)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetPacketHeader(System.String)">
             <summary>Sets the packetHeader attributes, only used by the parser.</summary>
@@ -1223,7 +1227,7 @@
             <summary>Performs a deep clone of the XMPMeta-object</summary>
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.Normalize(XmpCore.Options.ParseOptions)">
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.GetRoot">
             <returns>Returns the root node of the XMP tree.</returns>
@@ -1242,7 +1246,7 @@
             <param name="itemValue">the item value</param>
             <param name="itemOptions">the options for the new item</param>
             <param name="insert">insert oder overwrite at index position?</param>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpMeta.SetNode(XmpCore.Impl.XmpNode,System.Object,XmpCore.Options.PropertyOptions,System.Boolean)">
             <summary>
@@ -1263,7 +1267,7 @@
             <param name="valueType">an int indicating the value type</param>
             <param name="propNode">the node containing the value</param>
             <returns>Returns a literal value for the node.</returns>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="T:XmpCore.Impl.XmpMetaParser">
             <summary>
@@ -1271,10 +1275,9 @@
             XML-parsing and fixes the prefix.
             </summary>
             <remarks>
-            This class replaces the <c>ExpatAdapter.cpp</c> and does the
-            XML-parsing and fixes the prefix. After the parsing several normalisations
-            are applied to the XMPTree.
+            After the parsing several normalisations are applied to the XMP tree.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>01.02.2006</since>
         </member>
         <member name="M:XmpCore.Impl.XmpMetaParser.Parse(System.IO.Stream,XmpCore.Options.ParseOptions)">
@@ -1289,11 +1292,33 @@
             </summary>
             <exception cref="T:XmpCore.XmpException">Thrown if parsing or normalisation fails.</exception>
         </member>
+        <member name="M:XmpCore.Impl.XmpMetaParser.Parse(XmpCore.Impl.ByteBuffer,XmpCore.Options.ParseOptions)">
+            <summary>
+            Parses an XMP metadata object from a stream, including de-aliasing and normalisation.
+            </summary>
+            <exception cref="T:XmpCore.XmpException">Thrown if parsing or normalisation fails.</exception>
+        </member>
         <member name="M:XmpCore.Impl.XmpMetaParser.Parse(System.String,XmpCore.Options.ParseOptions)">
             <summary>
             Parses an XMP metadata object from a stream, including de-aliasing and normalisation.
             </summary>
             <exception cref="T:XmpCore.XmpException">Thrown if parsing or normalisation fails.</exception>
+        </member>
+        <member name="M:XmpCore.Impl.XmpMetaParser.Parse(System.Xml.Linq.XDocument,XmpCore.Options.ParseOptions)">
+            <summary>
+            Parses an XMP metadata object from a XDocument, including de-aliasing and normalisation.
+            </summary>
+            <exception cref="T:XmpCore.XmpException">Thrown if parsing or normalisation fails.</exception>
+        </member>
+        <member name="M:XmpCore.Impl.XmpMetaParser.Extract(System.Byte[],XmpCore.Options.ParseOptions)">
+            <summary>
+            Parses XML from a byte buffer,
+            fixing the encoding (Latin-1 to UTF-8) and illegal control character optionally.
+            </summary>
+            <param name="bytes">a byte buffer containing the XMP packet</param>
+            <param name="options">the parsing options</param>
+            <returns>Returns an XML DOM-Document.</returns>
+            <exception cref="T:XmpCore.XmpException">Thrown when the parsing fails.</exception>
         </member>
         <member name="M:XmpCore.Impl.XmpMetaParser.ParseXmlFromInputStream(System.IO.Stream,XmpCore.Options.ParseOptions)">
             <summary>
@@ -1309,6 +1334,8 @@
             <summary>
             Parses XML from a byte buffer,
             fixing the encoding (Latin-1 to UTF-8) and illegal control character optionally.
+            To improve the performance on legal files, it is first tried to parse normally,
+            while the character fixing is only done when the first pass fails.
             </summary>
             <param name="buffer">a byte buffer containing the XMP packet</param>
             <param name="options">the parsing options</param>
@@ -1324,10 +1351,10 @@
             <returns>Returns an XML DOM-Document.</returns>
             <exception cref="T:XmpCore.XmpException">Thrown when the parsing fails.</exception>
         </member>
-        <member name="M:XmpCore.Impl.XmpMetaParser.ParseStream(System.IO.Stream)">
+        <member name="M:XmpCore.Impl.XmpMetaParser.ParseStream(System.IO.Stream,XmpCore.Options.ParseOptions)">
             <exception cref="T:XmpCore.XmpException">Wraps parsing and I/O-exceptions into an XMPException.</exception>
         </member>
-        <member name="M:XmpCore.Impl.XmpMetaParser.ParseTextReader(System.IO.TextReader)">
+        <member name="M:XmpCore.Impl.XmpMetaParser.ParseTextReader(System.IO.TextReader,XmpCore.Options.ParseOptions)">
             <exception cref="T:XmpCore.XmpException">Wraps parsing and I/O-exceptions into an XMPException.</exception>
         </member>
         <member name="M:XmpCore.Impl.XmpMetaParser.FindRootNode(System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode},System.Boolean,System.Object[])">
@@ -1345,7 +1372,7 @@
             Pick the first x:xmpmeta among multiple root candidates. If there aren't
             any, pick the first bare rdf:RDF if that is allowed. The returned root is
             the rdf:RDF child if an x:xmpmeta element was chosen. The search is
-            breadth first, so a higher level candiate is chosen over a lower level
+            breadth first, so a higher level candidate is chosen over a lower level
             one that was textually earlier in the serialized XML.
             </remarks>
             <param name="nodes">initially, the root of the xml document as a list</param>
@@ -1359,7 +1386,7 @@
             The array contains:
             <list type="bullet">
             <item>[0] - the rdf:RDF-node</item>
-            <item>[1] - an object that is either XMP_RDF or XMP_PLAIN (the latter is decrecated)</item>
+            <item>[1] - an object that is either XMP_RDF or XMP_PLAIN (the latter is deprecated)</item>
             <item>[2] - the body text of the xpacket-instruction.</item>
             </list>
             </returns>
@@ -1370,18 +1397,20 @@
             an array item, a struct node or a qualifier node (without '?').
             </summary>
             <remarks>
-            A node in the internally XMP tree, which can be a schema node, a property node, an array node,
-            an array item, a struct node or a qualifier node (without '?').
             Possible improvements:
             1. The kind Node of node might be better represented by a class-hierarchy of different nodes.
             2. The array type should be an enum
             3. isImplicitNode should be removed completely and replaced by return values of fi.
             4. hasLanguage, hasType should be automatically maintained by XMPNode
             </remarks>
+            <author>Stefan Makswit</author>
             <since>21.02.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpNode._children">
             <summary>list of child nodes, lazy initialized</summary>
+        </member>
+        <member name="F:XmpCore.Impl.XmpNode._childrenLookup">
+            <summary>list of child node references for faster lookup. Only initialized when the original _children list exceeds 9 entries</summary>
         </member>
         <member name="F:XmpCore.Impl.XmpNode._qualifier">
             <summary>list of qualifier of the node, lazy initialized</summary>
@@ -1407,6 +1436,9 @@
             <summary>
             Get the parent node.
             </summary>
+            <remarks>
+            Set internally by <see cref="M:XmpCore.Impl.XmpNode.AddChild(XmpCore.Impl.XmpNode)"/>, <see cref="M:XmpCore.Impl.XmpNode.AddChild(XmpCore.Impl.XmpNode)"/> and <see cref="M:XmpCore.Impl.XmpNode.AddQualifier(XmpCore.Impl.XmpNode)"/>.
+            </remarks>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.GetChild(System.Int32)">
             <param name="index">an index [1..size]</param>
@@ -1458,7 +1490,7 @@
             <summary>Removes all children from the node.</summary>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.GetChildrenLength">
-            <returns>Returns the number of children without neccessarily creating a list.</returns>
+            <returns>Returns the number of children without necessarily creating a list.</returns>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.FindChildByName(System.String)">
             <param name="expr">child node name to look for</param>
@@ -1469,7 +1501,7 @@
             <returns>Returns the qualifier with the requested index.</returns>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.GetQualifierLength">
-            <returns>Returns the number of qualifier without neccessarily creating a list.</returns>
+            <returns>Returns the number of qualifier without necessarily creating a list.</returns>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.AddQualifier(XmpCore.Impl.XmpNode)">
             <summary>Appends a qualifier to the qualifier list and sets respective options.</summary>
@@ -1520,15 +1552,22 @@
         <member name="M:XmpCore.Impl.XmpNode.Clone">
             <summary>Performs a <b>deep clone</b> of the node and the complete subtree.</summary>
         </member>
-        <member name="M:XmpCore.Impl.XmpNode.CloneSubtree(XmpCore.Impl.XmpNode)">
+        <member name="M:XmpCore.Impl.XmpNode.Clone(System.Boolean)">
+            <summary>Performs a <b>deep clone</b> of the node and the complete subtree.
+            if <c>skipEmpty</c> is true, it will not clone node which has empty child and empty value.</summary>
+            <param name="skipEmpty">If true, it will not clone those nodes with empty value and empty children</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpNode.CloneSubtree(XmpCore.Impl.XmpNode,System.Boolean)">
             <summary>
             Performs a <b>deep clone</b> of the complete subtree (children and
             qualifier )into and add it to the destination node.
+            if <c>skipEmpty</c> is true, it will not clone node which has empty child and empty value.
             </summary>
             <param name="destination">the node to add the cloned subtree</param>
+            <param name="skipEmpty">If true, it will not clone those nodes with empty value and empty children</param>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.DumpNode(System.Boolean)">
-            <summary>Renders this node and the tree unter this node in a human readable form.</summary>
+            <summary>Renders this node and the tree under this node in a human readable form.</summary>
             <param name="recursive">Flag is qualifier and child nodes shall be rendered too</param>
             <returns>Returns a multiline string containing the dump.</returns>
         </member>
@@ -1572,7 +1611,8 @@
             <summary>Dumps this node and its qualifier and children recursively.</summary>
             <remarks>
             Dumps this node and its qualifier and children recursively.
-            <em>Note:</em> It creats empty options on every node.
+            <em>Note:</em> It creates empty options on every node.
+            FfF: sort schemas and properties on each level if and only if it would increase performance
             </remarks>
             <param name="result">the buffer to append the dump.</param>
             <param name="recursive">Flag is qualifier and child nodes shall be rendered too</param>
@@ -1602,11 +1642,18 @@
         <member name="M:XmpCore.Impl.XmpNode.GetQualifier">
             <returns>Returns list of qualifier that is lazy initialized.</returns>
         </member>
-        <member name="M:XmpCore.Impl.XmpNode.Find(System.Collections.Generic.IList{XmpCore.Impl.XmpNode},System.String)">
+        <member name="M:XmpCore.Impl.XmpNode.Find(System.Collections.Generic.IEnumerable{XmpCore.Impl.XmpNode},System.String)">
             <summary>Internal find.</summary>
             <param name="list">the list to search in</param>
             <param name="expr">the search expression</param>
             <returns>Returns the found node or <c>nulls</c>.</returns>
+        </member>
+        <member name="M:XmpCore.Impl.XmpNode.FindChild(System.Collections.Generic.List{XmpCore.Impl.XmpNode},System.Collections.Generic.Dictionary{System.String,XmpCore.Impl.XmpNode}@,System.String)">
+            <summary>Internal child find.</summary>
+            <param name="children">the child list to search in</param>
+            <param name="lookup">the child dictionary ref to initialize or search. Needs to be a ref parameter or it won't update the original Dictionary</param>
+            <param name="expr">the search expression</param>
+            <returns>Returns the found node or <c>null</c>.</returns>
         </member>
         <member name="M:XmpCore.Impl.XmpNode.AssertChildNotExisting(System.String)">
             <summary>Checks that a node name is not existing on the same level, except for array items.</summary>
@@ -1620,6 +1667,7 @@
         </member>
         <member name="T:XmpCore.Impl.XmpNodeUtils">
             <summary>Utilities for <c>XMPNode</c>.</summary>
+            <author>Stefan Makswit</author>
             <since>Aug 28, 2006</since>
         </member>
         <member name="M:XmpCore.Impl.XmpNodeUtils.FindSchemaNode(XmpCore.Impl.XmpNode,System.String,System.Boolean)">
@@ -1694,6 +1742,8 @@
             <remarks>
             Deletes the the given node and its children from its parent.
             Takes care about adjusting the flags.
+            FfF: think about moving is to XMPNode... (make removeChild/Qualifier private and
+            FfF: publish just deleteNode(XMPNode)
             </remarks>
             <param name="node">the top-most node to delete.</param>
         </member>
@@ -1703,10 +1753,11 @@
             <param name="value">a value</param>
         </member>
         <member name="M:XmpCore.Impl.XmpNodeUtils.VerifySetOptions(XmpCore.Options.PropertyOptions,System.Object)">
-            <summary>Verifies the PropertyOptions for consistancy and updates them as needed.</summary>
+            <summary>Verifies the PropertyOptions for consistency and updates them as needed.</summary>
             <remarks>
-            Verifies the PropertyOptions for consistancy and updates them as needed.
+            Verifies the PropertyOptions for consistency and updates them as needed.
             If options are <c>null</c> they are created with default values.
+            FfF: add an kind of autofix options to PropertyOptions and remove this method!!!
             </remarks>
             <param name="options">the <c>PropertyOptions</c></param>
             <param name="itemValue">the node value to set</param>
@@ -1715,7 +1766,7 @@
         </member>
         <member name="M:XmpCore.Impl.XmpNodeUtils.SerializeNodeValue(System.Object)">
             <summary>
-            Converts the node value to String, apply special conversions for defined
+            Converts the node value to string, apply special conversions for defined
             types in XMP.
             </summary>
             <param name="value">the node value to set</param>
@@ -1740,7 +1791,7 @@
             <param name="parentNode">the node to start to start from</param>
             <param name="nextStep">the xpath segment</param>
             <param name="createNodes"></param>
-            <returns>returns the found or created XMPPath node</returns>
+            <returns>returns the found or created <see cref="T:XmpCore.Impl.XPath.XmpPath"/> node</returns>
             <exception cref="T:XmpCore.XmpException"></exception>
         </member>
         <member name="M:XmpCore.Impl.XmpNodeUtils.FindQualifierNode(XmpCore.Impl.XmpNode,System.String,System.Boolean)">
@@ -1751,7 +1802,7 @@
             the parent's vector of qualifiers. The iterator is unchanged if no qualifier node (null)
             is returned.
             <em>Note:</em> On entry, the qualName parameter must not have the leading '?' from the
-            XMPPath step.
+            <see cref="T:XmpCore.Impl.XPath.XmpPath"/> step.
             </remarks>
             <param name="parent">the parent XMPNode</param>
             <param name="qualName">the qualifier name</param>
@@ -1776,9 +1827,9 @@
             [fieldName="value] - an element in an array of structs, chosen by a field value.
             No implicit nodes are created by field selectors.
             </remarks>
-            <param name="arrayNode"/>
-            <param name="fieldName"/>
-            <param name="fieldValue"/>
+            <param name="arrayNode" />
+            <param name="fieldName" />
+            <param name="fieldValue" />
             <returns>Returns the index of the field if found, otherwise -1.</returns>
             <exception cref="T:XmpCore.XmpException"></exception>
         </member>
@@ -1847,16 +1898,17 @@
             Returns the kind of match as an Integer and the found node in an
             array.
             </returns>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpNodeUtils.LookupLanguageItem(XmpCore.Impl.XmpNode,System.String)">
             <summary>Looks for the appropriate language item in a text alternative array.item</summary>
             <param name="arrayNode">an array node</param>
             <param name="language">the requested language</param>
             <returns>Returns the index if the language has been found, -1 otherwise.</returns>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="T:XmpCore.Impl.XmpNormalizer">
+            <author>Stefan Makswit</author>
             <since>Aug 18, 2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpNormalizer._dcArrayForms">
@@ -1894,14 +1946,12 @@
         </member>
         <member name="M:XmpCore.Impl.XmpNormalizer.NormalizeDcArrays(XmpCore.Impl.XmpNode)">
             <summary>
-            Undo the denormalization performed by the XMP used in Acrobat 5.<br />
-            If a Dublin Core array had only one item, it was serialized as a simple
-            property.
+            Undo the denormalization performed by the XMP used in Acrobat 5.
             </summary>
             <remarks>
-            Undo the denormalization performed by the XMP used in Acrobat 5.<br />
             If a Dublin Core array had only one item, it was serialized as a simple
-            property. <br />
+            property.
+            <para />
             The <c>xml:lang</c> attribute was dropped from an
             <c>alt-text</c> item if the language was <c>x-default</c>.
             </remarks>
@@ -1966,36 +2016,45 @@
             The initial support for WAV files mapped a legacy ID3 audio copyright
             into a new xmpDM:copyright property. This is special case code to migrate
             that into dc:rights['x-default']. The rules:
-            <pre>
-            1. If there is no dc:rights array, or an empty array -
-            Create one with dc:rights['x-default'] set from double linefeed and xmpDM:copyright.
-            2. If there is a dc:rights array but it has no x-default item -
-            Create an x-default item as a copy of the first item then apply rule #3.
-            3. If there is a dc:rights array with an x-default item,
-            Look for a double linefeed in the value.
-            A. If no double linefeed, compare the x-default value to the xmpDM:copyright value.
-            A1. If they match then leave the x-default value alone.
-            A2. Otherwise, append a double linefeed and
-            the xmpDM:copyright value to the x-default value.
-            B. If there is a double linefeed, compare the trailing text to the xmpDM:copyright value.
-            B1. If they match then leave the x-default value alone.
-            B2. Otherwise, replace the trailing x-default text with the xmpDM:copyright value.
-            4. In all cases, delete the xmpDM:copyright property.
-            </pre>
+            <list type="number">
+              <item>
+                If there is no dc:rights array, or an empty array -
+                Create one with dc:rights['x-default'] set from double linefeed and xmpDM:copyright.
+              </item>
+              <item>
+                If there is a dc:rights array but it has no x-default item -
+                Create an x-default item as a copy of the first item then apply rule #3.
+              </item>
+              <item>
+                If there is a dc:rights array with an x-default item,
+                Look for a double linefeed in the value.
+                <list type="bullet">
+                  <item>If no double linefeed, compare the x-default value to the xmpDM:copyright value.
+                    <list type="bullet">
+                      <item>If they match then leave the x-default value alone.</item>
+                      <item>Otherwise, append a double linefeed and the xmpDM:copyright value to the x-default value.</item>
+                    </list>
+                  </item>
+                  <item>If there is a double linefeed, compare the trailing text to the xmpDM:copyright value.
+                    <list type="bullet">
+                      <item>If they match then leave the x-default value alone.</item>
+                      <item>Otherwise, replace the trailing x-default text with the xmpDM:copyright value.</item>
+                    </list>
+                  </item>
+                </list>
+              </item>
+              <item>In all cases, delete the xmpDM:copyright property.</item>
+            </list>
             </remarks>
             <param name="xmp">the metadata object</param>
             <param name="dmCopyright">the "dm:copyright"-property</param>
-        </member>
-        <member name="M:XmpCore.Impl.XmpNormalizer.InitDcArrays">
-            <summary>
-            Initializes the map that contains the known arrays, that are fixed by <see cref="M:XmpCore.Impl.XmpNormalizer.NormalizeDcArrays(XmpCore.Impl.XmpNode)"/>.
-            </summary>
         </member>
         <member name="T:XmpCore.Impl.XmpSchemaRegistry">
             <summary>The schema registry handles the namespaces, aliases and global options for the XMP Toolkit.</summary>
             <remarks>
             There is only one singleton instance used by the toolkit, accessed via <see cref="P:XmpCore.XmpMetaFactory.SchemaRegistry"/>.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>27.01.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpSchemaRegistry._namespaceToPrefixMap">
@@ -2007,7 +2066,7 @@
         <member name="F:XmpCore.Impl.XmpSchemaRegistry._aliasMap">
             <summary>A map of all registered aliases, from qname to IXmpAliasInfo.</summary>
         </member>
-        <member name="F:XmpCore.Impl.XmpSchemaRegistry._defaultRegexOptions">
+        <member name="F:XmpCore.Impl.XmpSchemaRegistry._p">
             <summary>The pattern that must not be contained in simple properties</summary>
         </member>
         <member name="M:XmpCore.Impl.XmpSchemaRegistry.#ctor">
@@ -2058,6 +2117,7 @@
             Serializes the <c>XMPMeta</c>-object to an <c>OutputStream</c> according to the
             <c>SerializeOptions</c>.
             </summary>
+            <author>Stefan Makswit</author>
             <since>11.07.2006</since>
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerHelper.Serialize(XmpCore.Impl.XmpMeta,System.IO.Stream,XmpCore.Options.SerializeOptions)">
@@ -2065,12 +2125,12 @@
             <remarks>
             For each serialisation, a new XMPSerializer
             instance is created, either XMPSerializerRDF or XMPSerializerPlain so that its possible to
-            serialialize the same XMPMeta objects in two threads.
+            serialize the same XMPMeta objects in two threads.
             </remarks>
             <param name="xmp">a metadata implementation object</param>
             <param name="stream">the output stream to serialize to</param>
             <param name="options">serialization options, can be <c>null</c> for default.</param>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerHelper.SerializeToString(XmpCore.Impl.XmpMeta,XmpCore.Options.SerializeOptions)">
             <summary>Serializes an <c>XMPMeta</c>-object as RDF into a string.</summary>
@@ -2096,7 +2156,9 @@
             Serializes the <c>XMPMeta</c>-object using the standard RDF serialization format.
             The output is written to an <c>OutputStream</c>
             according to the <c>SerializeOptions</c>.
+            FfF: Move to XMLStreamWriter (a lot of test would break due to slight format change).
             </remarks>
+            <author>Stefan Makswit</author>
             <since>11.07.2006</since>
         </member>
         <member name="F:XmpCore.Impl.XmpSerializerRdf.DefaultPad">
@@ -2163,7 +2225,7 @@
             <exception cref="T:XmpCore.XmpException"></exception>
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.WriteTreeName">
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.SerializeCompactRdfSchemas(System.Int32)">
             <summary>Serializes the metadata in compact manner.</summary>
@@ -2180,7 +2242,7 @@
             <param name="parentNode">the parent property node</param>
             <param name="indent">the current indent level</param>
             <returns>Returns true if all properties can be rendered as RDF attribute.</returns>
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.SerializeCompactRdfElementProps(XmpCore.Impl.XmpNode,System.Int32)">
             <summary>
@@ -2191,10 +2253,9 @@
             Recursively handles the "value" for a node that must be written as an RDF
             property element. It does not matter if it is a top level property, a
             field of a struct, or an item of an array. The indent is that for the
-            property element. The patterns bwlow ignore attribute qualifiers such as
+            property element. The patterns below ignore attribute qualifiers such as
             xml:lang, they don't affect the output form.
-            <blockquote>
-            <pre>
+            <code>
             &lt;ns:UnqualifiedStructProperty-1
             ... The fields as attributes, if all are simple and unqualified
             /&gt;
@@ -2218,8 +2279,7 @@
             following the unqualified forms ... &lt;/rdf:value&gt;
             ... Qualifiers looking like named struct fields
             &lt;/ns:QualifiedProperty&gt;
-            </pre>
-            </blockquote>
+            </code>
             *** Consider numbered array items, but has compatibility problems.
             Consider qualified form with rdf:Description and attributes.
             </remarks>
@@ -2259,28 +2319,21 @@
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.SerializeCanonicalRdfSchema(XmpCore.Impl.XmpNode,System.Int32)">
             <summary>
-            Serializes one schema with all contained properties in pretty-printed
-            manner.<br />
-            Each schema's properties are written to a single
-            rdf:Description element.
+            Serializes one schema with all contained properties in pretty-printed manner.
             </summary>
             <remarks>
-            Serializes one schema with all contained properties in pretty-printed
-            manner.<br />
             Each schema's properties are written to a single
             rdf:Description element. All of the necessary namespaces are declared in
             the rdf:Description element. The baseIndent is the base level for the
             entire serialization, that of the x:xmpmeta element. An xml:lang
             qualifier is written as an attribute of the property start tag, not by
             itself forcing the qualified property form.
-            <blockquote>
-            <pre>
+            <code>
             &lt;rdf:Description rdf:about=&quot;TreeName&quot; xmlns:ns=&quot;URI&quot; ... &gt;
             ... The actual properties of the schema, see SerializePrettyRDFProperty
             &lt;!-- ns1:Alias is aliased to ns2:Actual --&gt;  ... If alias comments are wanted
             &lt;/rdf:Description&gt;
-            </pre>
-            </blockquote>
+            </code>
             </remarks>
             <param name="schemaNode">a schema node</param>
             <param name="level"></param>
@@ -2291,7 +2344,7 @@
             <summary>Writes all used namespaces of the subtree in node to the output.</summary>
             <remarks>
             Writes all used namespaces of the subtree in node to the output.
-            The subtree is recursivly traversed.
+            The subtree is recursively traversed.
             </remarks>
             <param name="node">the root node of the subtree</param>
             <param name="usedPrefixes">a set containing currently used prefixes</param>
@@ -2316,7 +2369,7 @@
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.EndOuterRdfDescription(System.Int32)">
             <summary>Write the <c>&lt;/rdf:Description&gt;</c> end tag.</summary>
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.SerializeCanonicalRdfProperty(XmpCore.Impl.XmpNode,System.Boolean,System.Boolean,System.Int32)">
             <summary>Recursively handles the "value" for a node.</summary>
@@ -2328,8 +2381,7 @@
             qualified property form. The patterns below mostly ignore attribute
             qualifiers like xml:lang. Except for the one struct case, attribute
             qualifiers don't affect the output form.
-            <blockquote>
-            <pre>
+            <code>
             &lt;ns:UnqualifiedSimpleProperty&gt;value&lt;/ns:UnqualifiedSimpleProperty&gt;
             &lt;ns:UnqualifiedStructProperty&gt; (If no rdf:resource qualifier)
             &lt;rdf:Description&gt;
@@ -2351,8 +2403,7 @@
             ... Qualifiers looking like named struct fields
             &lt;/rdf:Description&gt;
             &lt;/ns:QualifiedProperty&gt;
-            </pre>
-            </blockquote>
+            </code>
             </remarks>
             <param name="node">the property node</param>
             <param name="emitAsRdfValue">property shall be rendered as attribute rather than tag</param>
@@ -2382,7 +2433,7 @@
             </remarks>
             <param name="value">the value of the node</param>
             <param name="forAttribute">flag if value is an attribute value</param>
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.CanBeRdfAttrProp(XmpCore.Impl.XmpNode)">
             <summary>
@@ -2398,7 +2449,7 @@
             <returns>Returns true if the node serialized as RDF-Attribute</returns>
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.WriteIndent(System.Int32)">
-            <summary>Writes indents and automatically includes the baseindend from the options.</summary>
+            <summary>Writes indents and automatically includes the base indent from the options.</summary>
             <param name="times">number of indents to write</param>
             <exception cref="T:System.IO.IOException">forwards exception</exception>
         </member>
@@ -2421,13 +2472,14 @@
             <summary>Writes an amount of chars, mostly spaces</summary>
             <param name="number">number of chars</param>
             <param name="c">a char</param>
-            <exception cref="T:System.IO.IOException"/>
+            <exception cref="T:System.IO.IOException" />
         </member>
         <member name="M:XmpCore.Impl.XmpSerializerRdf.WriteNewline">
             <summary>Writes a newline according to the options.</summary>
             <exception cref="T:System.IO.IOException">Forwards exception</exception>
         </member>
         <member name="T:XmpCore.Impl.XmpUtils">
+            <author>Stefan Makswit</author>
             <since>11.08.2006</since>
         </member>
         <member name="M:XmpCore.Impl.XmpUtils.CatenateArrayItems(XmpCore.IXmpMeta,System.String,System.String,System.String,System.String,System.Boolean)">
@@ -2513,13 +2565,14 @@
             <param name="doAllProperties">flag if all properties or only externals shall be removed.</param>
             <returns>Returns true if the schema is empty after the operation.</returns>
         </member>
-        <member name="M:XmpCore.Impl.XmpUtils.AppendSubtree(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,XmpCore.Impl.XmpNode,System.Boolean,System.Boolean)">
+        <member name="M:XmpCore.Impl.XmpUtils.AppendSubtree(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpNode,XmpCore.Impl.XmpNode,System.Boolean,System.Boolean,System.Boolean)">
             <param name="destXmp">The destination XMP object.</param>
             <param name="sourceNode">the source node</param>
             <param name="destParent">the parent of the destination node</param>
+            <param name="mergeCompound"></param>
             <param name="replaceOldValues">Replace the values of existing properties.</param>
             <param name="deleteEmptyValues">flag if properties with empty values should be deleted in the destination object.</param>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpUtils.ItemValuesMatch(XmpCore.Impl.XmpNode,XmpCore.Impl.XmpNode)">
             <summary>Compares two nodes including its children and qualifier.</summary>
@@ -2533,8 +2586,8 @@
             <remarks>
             Separators must be one semicolon surrounded by zero or more spaces. Any of the recognized semicolons or spaces are allowed.
             </remarks>
-            <param name="separator"/>
-            <exception cref="T:XmpCore.XmpException"/>
+            <param name="separator" />
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpUtils.CheckQuotes(System.String,System.Char)">
             <summary>
@@ -2544,7 +2597,7 @@
             <param name="quotes">opened and closing quote in a string</param>
             <param name="openQuote">the open quote</param>
             <returns>Returns a corresponding closing quote.</returns>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XmpUtils.ClassifyCharacter(System.Char)">
             <summary>
@@ -2580,73 +2633,169 @@
         </member>
         <member name="F:XmpCore.Impl.XmpUtils.Spaces">
             <summary>
-            U+0022 ASCII space<br />
-            U+3000, ideographic space<br />
-            U+303F, ideographic half fill space<br />
-            U+2000..U+200B, en quad through zero width space
+            <list type="bullet">
+              <item>U+0022 ASCII space</item>
+              <item>U+3000, ideographic space</item>
+              <item>U+303F, ideographic half fill space</item>
+              <item>U+2000..U+200B, en quad through zero width space</item>
+            </list>
             </summary>
         </member>
         <member name="F:XmpCore.Impl.XmpUtils.Commas">
             <summary>
-            U+002C, ASCII comma<br />
-            U+FF0C, full width comma<br />
-            U+FF64, half width ideographic comma<br />
-            U+FE50, small comma<br />
-            U+FE51, small ideographic comma<br />
-            U+3001, ideographic comma<br />
-            U+060C, Arabic comma<br />
-            U+055D, Armenian comma
+            <list type="bullet">
+              <item>U+002C, ASCII comma</item>
+              <item>U+FF0C, full width comma</item>
+              <item>U+FF64, half width ideographic comma</item>
+              <item>U+FE50, small comma</item>
+              <item>U+FE51, small ideographic comma</item>
+              <item>U+3001, ideographic comma</item>
+              <item>U+060C, Arabic comma</item>
+              <item>U+055D, Armenian comma</item>
+            </list>
             </summary>
         </member>
         <member name="F:XmpCore.Impl.XmpUtils.Semicola">
             <summary>
-            U+003B, ASCII semicolon<br />
-            U+FF1B, full width semicolon<br />
-            U+FE54, small semicolon<br />
-            U+061B, Arabic semicolon<br />
-            U+037E, Greek "semicolon" (really a question mark)
+            <list type="bullet">
+              <item>U+003B, ASCII semicolon</item>
+              <item>U+FF1B, full width semicolon</item>
+              <item>U+FE54, small semicolon</item>
+              <item>U+061B, Arabic semicolon</item>
+              <item>U+037E, Greek "semicolon" (really a question mark)</item>
+            </list>
             </summary>
         </member>
         <member name="F:XmpCore.Impl.XmpUtils.Quotes">
             <summary>
-            U+0022 ASCII quote<br />
+            <list type="bullet">
+              <item>U+0022 ASCII quote</item>
+              <item>U+00AB and U+00BB, guillemet quotes</item>
+              <item>U+3008..U+300F, various quotes</item>
+              <item>U+301D..U+301F, double prime quotes</item>
+              <item>U+2015, dash quote</item>
+              <item>U+2018..U+201F, various quotes</item>
+              <item>U+2039 and U+203A, guillemet quotes</item>
+            </list>
+            </summary>
+            <remarks>
             The square brackets are not interpreted as quotes anymore (bug #2674672)
             (ASCII '[' (0x5B) and ']' (0x5D) are used as quotes in Chinese and
             Korean.)<br />
-            U+00AB and U+00BB, guillemet quotes<br />
-            U+3008..U+300F, various quotes.<br />
-            U+301D..U+301F, double prime quotes.<br />
-            U+2015, dash quote.<br />
-            U+2018..U+201F, various quotes.<br />
-            U+2039 and U+203A, guillemet quotes.
-            </summary>
+            </remarks>
         </member>
         <member name="F:XmpCore.Impl.XmpUtils.Controls">
             <summary>
-            U+0000..U+001F ASCII controls<br />
-            U+2028, line separator.<br />
-            U+2029, paragraph separator.
+            <list type="bullet">
+              <item>U+0000..U+001F ASCII controls</item>
+              <item>U+2028, line separator</item>
+              <item>U+2029, paragraph separator</item>
+            </list>
             </summary>
         </member>
-        <member name="T:XmpCore.Impl.XPath.XmpPath">
-            <summary>Representates an XMP XMPPath with segment accessor methods.</summary>
-            <since>28.02.2006</since>
+        <member name="M:XmpCore.Impl.XmpUtils.MoveOneProperty(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpMeta,System.String,System.String)">
+            <summary>Moves the specified Property from one Meta to another.</summary>
+            <param name="stdXMP">Meta Object from where the property needs to move</param>
+            <param name="extXMP">Meta Object to where the property needs to move</param>
+            <param name="schemaURI">Schema of the specified property</param>
+            <param name="propName">Name of the property</param>
+            <returns>true in case of success otherwise false.</returns>
         </member>
-        <member name="F:XmpCore.Impl.XPath.XmpPath.StructFieldStep">
-            <summary>Marks a struct field step , also for top level nodes (schema "fields").</summary>
+        <member name="M:XmpCore.Impl.XmpUtils.EstimateSizeForJPEG(XmpCore.Impl.XmpNode)">
+            <summary>estimates the size of an xmp node</summary>
+            <param name="xmpNode">XMP Node Object</param>
+            <returns>the estimated size of the node</returns>
         </member>
-        <member name="F:XmpCore.Impl.XPath.XmpPath.QualifierStep">
+        <member name="M:XmpCore.Impl.XmpUtils.PutObjectsInMultiMap(System.Collections.Generic.SortedDictionary{System.Int32,System.Collections.Generic.List{System.Collections.Generic.List{System.String}}},System.Int32,System.Collections.Generic.List{System.String})">
+            <summary>Utility function for placing objects in a Map. It behaves like a multi map.</summary>
+            <param name="multiMap">A Map object which takes int as a key and list of list of string as value</param>
+            <param name="key">A key for the map</param>
+            <param name="stringPair">A value for the map</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.GetBiggestEntryInMultiMap(System.Collections.Generic.SortedDictionary{System.Int32,System.Collections.Generic.List{System.Collections.Generic.List{System.String}}})">
+            <summary>Utility function for retrieving biggest entry in the multimap</summary>
+            <remarks>see EstimateSizeForJPEG for size calculation</remarks>
+            <param name="multiMap">A Map object which takes int as a key and list of list of string as value</param>
+            <returns>the list with the maximum size.</returns>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.CreateEstimatedSizeMap(XmpCore.Impl.XmpMeta,System.Collections.Generic.SortedDictionary{System.Int32,System.Collections.Generic.List{System.Collections.Generic.List{System.String}}})">
+            <summary>Utility function for creating esimated size map for different properties of XMP Packet.</summary>
+            <remarks>see PackageForJPEG</remarks>
+            <param name="stdXMP">Meta Object whose property sizes needs to calculate.</param>
+            <param name="propSizes">A treeMap Object which takes int as a key and list of list of string as values</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.MoveLargestProperty(XmpCore.Impl.XmpMeta,XmpCore.Impl.XmpMeta,System.Collections.Generic.SortedDictionary{System.Int32,System.Collections.Generic.List{System.Collections.Generic.List{System.String}}})">
+            <summary>Utility function for moving the largest property from One XMP Packet to another.</summary>
+            <remarks>see MoveOneProperty and PackageForJPEG</remarks>
+            <param name="stdXMP">Meta Object from where property moves.</param>
+            <param name="extXMP">Meta Object to where property moves.</param>
+            <param name="propSizes">A treeMap Object which holds the estimated sizes of the property of stdXMP as a key and their string representation as map values.</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.PackageForJPEG(XmpCore.IXmpMeta,System.Text.StringBuilder,System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>creates XMP serializations appropriate for a JPEG file.</summary>
+            <remarks>
+            The standard XMP in a JPEG file is limited to 64K bytes. This function
+            serializes the XMP metadata in an XMP object into a string of RDF.If
+            the data does not fit into the 64K byte limit, it creates a second packet
+            string with the extended data.
+            </remarks>
+            <param name="origXMPImpl">The XMP object containing the metadata.</param>
+            <param name="stdStr">A string object in which to return the full standard XMP packet.</param>
+            <param name="extStr">A string object in which to return the serialized extended XMP, empty if not needed.</param>
+            <param name="digestStr">A string object in which to return an MD5 digest of the serialized extended XMP, empty if not needed.</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.MergeFromJPEG(XmpCore.IXmpMeta,XmpCore.IXmpMeta)">
+            <summary>merges standard and extended XMP retrieved from a JPEG file.</summary>
+            <remarks>
+            When an extended partition stores properties that do not fit into the
+            JPEG file limitation of 64K bytes, this function integrates those
+            properties back into the same XMP object with those from the standard XMP
+            packet.
+            </remarks>
+            <param name="fullXMP">An XMP object which the caller has initialized from the standard XMP packet in a JPEG file. The extended XMP is added to this object.</param>
+            <param name="extendedXMP">An XMP object which the caller has initialized from the extended XMP packet in a JPEG file.</param>
+        </member>
+        <member name="M:XmpCore.Impl.XmpUtils.ApplyTemplate(XmpCore.IXmpMeta,XmpCore.IXmpMeta,XmpCore.Options.TemplateOptions)">
+            <summary>modifies a working XMP object according to a template object.</summary>
+            <remarks>
+            The XMP template can be used to add, replace or delete properties from
+            the working XMP object. The actions that you specify determine how the
+            template is applied.Each action can be applied individually or combined;
+            if you do not specify any actions, the properties and values in the
+            working XMP object do not change.
+            </remarks>
+            <param name="origXMP">The destination XMP object.</param>
+            <param name="tempXMP">The template to apply to the destination XMP object.</param>
+            <param name="actions">Option flags to control the copying. If none are specified,
+               the properties and values in the working XMP do not change. A logical OR of these bit-flag constants:
+               <ul>
+               <li><code> CLEAR_UNNAMED_PROPERTIES</code> Delete anything that is not in the template.</li>
+               <li><code> ADD_NEW_PROPERTIES</code> Add properties; see detailed description.</li>
+               <li><code> REPLACE_EXISTING_PROPERTIES</code> Replace the values of existing properties.</li>
+               <li><code> REPLACE_WITH_DELETE_EMPTY</code> Replace the values of existing properties and delete properties if the new value is empty.</li>
+               <li><code> INCLUDE_INTERNAL_PROPERTIES</code> Operate on internal properties as well as external properties.</li>
+               </ul>
+            </param>
+        </member>
+        <member name="F:XmpCore.Impl.XPath.XmpPathStepType.StructFieldStep">
+            <summary>Marks a struct field step, also for top level nodes (schema "fields").</summary>
+        </member>
+        <member name="F:XmpCore.Impl.XPath.XmpPathStepType.QualifierStep">
             <summary>Marks a qualifier step.</summary>
             <remarks>
             Marks a qualifier step.
             Note: Order is significant to separate struct/qual from array kinds!
             </remarks>
         </member>
-        <member name="F:XmpCore.Impl.XPath.XmpPath.ArrayIndexStep">
+        <member name="F:XmpCore.Impl.XPath.XmpPathStepType.ArrayIndexStep">
             <summary>Marks an array index step</summary>
         </member>
+        <member name="T:XmpCore.Impl.XPath.XmpPath">
+            <summary>Represents an XMP XmpPath with segment accessor methods.</summary>
+            <since>28.02.2006</since>
+        </member>
         <member name="F:XmpCore.Impl.XPath.XmpPath._segments">
-            <summary>stores the segments of an XMPPath</summary>
+            <summary>stores the segments of an <see cref="T:XmpCore.Impl.XPath.XmpPath"/></summary>
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPath.Add(XmpCore.Impl.XPath.XmpPathSegment)">
             <summary>Append a path segment</summary>
@@ -2668,11 +2817,11 @@
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathParser.ExpandXPath(System.String,System.String)">
             <summary>
-            Split an XMPPath expression apart at the conceptual steps, adding the
+            Split an <see cref="T:XmpCore.Impl.XPath.XmpPath"/> expression apart at the conceptual steps, adding the
             root namespace prefix to the first property component.
             </summary>
             <remarks>
-            The schema URI is put in the first (0th) slot in the expanded XMPPath.
+            The schema URI is put in the first (0th) slot in the expanded <see cref="T:XmpCore.Impl.XPath.XmpPath"/>.
             Check if the top level component is an alias, but don't resolve it.
             <para />
             In the most verbose case steps are separated by '/', and each step can be
@@ -2728,19 +2877,19 @@
             </remarks>
             <param name="schemaNs">schema namespace</param>
             <param name="path">property name</param>
-            <returns>Returns the expandet XMPPath.</returns>
+            <returns>Returns the expanded <see cref="T:XmpCore.Impl.XPath.XmpPath"/>.</returns>
             <exception cref="T:XmpCore.XmpException">Thrown if the format is not correct somehow.</exception>
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathParser.SkipPathDelimiter(System.String,XmpCore.Impl.XPath.PathPosition)">
-            <param name="path"/>
-            <param name="pos"/>
-            <exception cref="T:XmpCore.XmpException"/>
+            <param name="path" />
+            <param name="pos" />
+            <exception cref="T:XmpCore.XmpException" />
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathParser.ParseStructSegment(XmpCore.Impl.XPath.PathPosition)">
             <summary>Parses a struct segment</summary>
             <param name="pos">the current position in the path</param>
-            <returns>Retusn the segment or an errror</returns>
-            <exception cref="T:XmpCore.XmpException">If the sement is empty</exception>
+            <returns>The segment or an error</returns>
+            <exception cref="T:XmpCore.XmpException">If the segment is empty</exception>
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathParser.ParseIndexSegment(XmpCore.Impl.XPath.PathPosition)">
             <summary>Parses an array index segment.</summary>
@@ -2772,9 +2921,9 @@
             <exception cref="T:XmpCore.XmpException">When the name is not XML conformant</exception>
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathParser.VerifyXPathRoot(System.String,System.String)">
-            <summary>Set up the first 2 components of the expanded XMPPath.</summary>
+            <summary>Set up the first 2 components of the expanded <see cref="T:XmpCore.Impl.XPath.XmpPath"/>.</summary>
             <remarks>
-            Set up the first 2 components of the expanded XMPPath. Normalizes the various cases of using
+            Normalizes the various cases of using
             the full schema URI and/or a qualified root property name. Returns true for normal
             processing. If allowUnknownSchemaNS is true and the schema namespace is not registered, false
             is returned. If allowUnknownSchemaNS is false and the schema namespace is not registered, an
@@ -2806,14 +2955,14 @@
             <summary>the end of a step</summary>
         </member>
         <member name="T:XmpCore.Impl.XPath.XmpPathSegment">
-            <summary>A segment of a parsed <c>XMPPath</c>.</summary>
+            <summary>A segment of a parsed <see cref="T:XmpCore.Impl.XPath.XmpPath"/>.</summary>
             <since>23.06.2006</since>
         </member>
         <member name="M:XmpCore.Impl.XPath.XmpPathSegment.#ctor(System.String)">
             <summary>Constructor with initial values.</summary>
             <param name="name">the name of the segment</param>
         </member>
-        <member name="M:XmpCore.Impl.XPath.XmpPathSegment.#ctor(System.String,System.Int32)">
+        <member name="M:XmpCore.Impl.XPath.XmpPathSegment.#ctor(System.String,XmpCore.Impl.XPath.XmpPathStepType)">
             <summary>Constructor with initial values.</summary>
             <param name="name">the name of the segment</param>
             <param name="kind">the kind of the segment</param>
@@ -2832,6 +2981,7 @@
         </member>
         <member name="T:XmpCore.IXmpAliasInfo">
             <summary>This interface is used to return info about an alias.</summary>
+            <author>Stefan Makswit</author>
             <since>27.01.2006</since>
         </member>
         <member name="P:XmpCore.IXmpAliasInfo.Namespace">
@@ -2854,7 +3004,7 @@
         </member>
         <member name="T:XmpCore.IXmpDateTime">
             <summary>
-            The <c>XMPDateTime</c>-class represents a point in time up to a resolution of nano seconds.
+            The <c>XMPDateTime</c>-class represents a point in time up to a resolution of nanoseconds.
             </summary>
             <remarks>
             Dates and time in the serialized XMP are ISO 8601 strings. There are utility functions
@@ -2866,8 +3016,8 @@
             <item>minute - The minute in the range 0..59.</item>
             <item>hour - The time zone hour in the range 0..23.</item>
             <item>minute - The time zone minute in the range 0..59.</item>
-            <item>nanosecond - The nano seconds within a second. <em>Note:</em> if the XMPDateTime is
-            converted into a calendar, the resolution is reduced to milli seconds.</item>
+            <item>nanosecond - The nanoseconds within a second. <em>Note:</em> if the XMPDateTime is
+            converted into a calendar, the resolution is reduced to milliseconds.</item>
             <item>timeZone - a <c>TimeZone</c>-object.</item>
             </list>
             DateTime values are occasionally used in cases with only a date or only a time component. A date
@@ -2900,7 +3050,7 @@
             <value>Get and set the time zone.</value>
         </member>
         <member name="P:XmpCore.IXmpDateTime.Offset">
-            <value>Get and set the offset, primarily for ISO8601 converter. </value>
+            <value>Get and set the offset, primarily for ISO8601 converter.</value>
         </member>
         <member name="P:XmpCore.IXmpDateTime.HasDate">
             <summary>This flag is set either by parsing or by setting year, month or day.</summary>
@@ -2915,11 +3065,13 @@
             <value>Returns true if the XMPDateTime object has a defined timezone.</value>
         </member>
         <member name="P:XmpCore.IXmpDateTime.Calendar">
-            <value>
-            Returns a <c>Calendar</c> (only with milli second precision). <br />
-            <em>Note:</em> the dates before Oct 15th 1585 (which normally fall into validity of
+            <summary>
+            Returns a <c>Calendar</c> (only with millisecond precision).
+            </summary>
+            <remarks>
+            Dates before Oct 15th 1585 (which normally fall into validity of
             the Julian calendar) are also rendered internally as Gregorian dates.
-            </value>
+            </remarks>
         </member>
         <member name="M:XmpCore.IXmpDateTime.ToIso8601String">
             <returns>Returns the ISO 8601 string representation of the date and time.</returns>
@@ -2976,6 +3128,7 @@
             a <c>NoSuchElementException</c> if there are no more properties to
             return.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>25.01.2006</since>
         </member>
         <member name="M:XmpCore.IXmpIterator.SkipSubtree">
@@ -2996,6 +3149,7 @@
             It has methods to read and modify all kinds of properties, create an iterator over all properties
             and serialize the metadata to a string, byte array or stream.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>20.01.2006</since>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)">
@@ -3015,7 +3169,7 @@
             See <see cref="T:XmpCore.Options.PropertyOptions"/> for detailed information about the options.
             <para />
             This is the simplest property getter, mainly for top level simple properties or after using
-            the path composition functions in XMPPathFactory.
+            the path composition functions in <see cref="T:XmpCore.XmpPathFactory"/>.
             </remarks>
             <param name="schemaNs">
             The namespace URI for the property. May be <c>null</c> or the empty
@@ -3031,7 +3185,7 @@
             namespace.
             </param>
             <returns>
-            Returns a <c>XMPProperty</c> containing the value and the options or
+            Returns an <see cref="T:XmpCore.IXmpProperty"/> containing the value and the options, or
             <c>null</c> if the property does not exist.
             </returns>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3042,29 +3196,29 @@
             The index is passed as an integer, you need not
             worry about the path string syntax for array items, convert a loop index to a string, etc.
             </remarks>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="itemIndex">
             The index of the desired item. Arrays in XMP are indexed from 1. The constant
             <see cref="F:XmpCore.XmpConstants.ArrayLastItem"/> always refers to the last existing array item.
             </param>
             <returns>
-            Returns a <c>XMPProperty</c> containing the value and the options or
+            Returns an <see cref="T:XmpCore.IXmpProperty"/> containing the value and the options or
             <c>null</c> if the property does not exist.
             </returns>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.CountArrayItems(System.String,System.String)">
             <summary>Returns the number of items in the array.</summary>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <returns>Returns the number of items in the array.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3079,11 +3233,11 @@
             never guaranteed. The URI is the formal name, the prefix is just a local shorthand in a given
             sequence of XML text.
             </remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="structName">
             The name of the struct. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="fieldNs">
             The namespace URI for the field. Has the same URI and prefix usage as the
@@ -3095,7 +3249,7 @@
             structName parameter.
             </param>
             <returns>
-            Returns a <c>XMPProperty</c> containing the value and the options or
+            Returns an <see cref="T:XmpCore.IXmpProperty"/> containing the value and the options or
             <c>null</c> if the property does not exist. Arrays and non-leaf levels of
             structs do not have values.
             </returns>
@@ -3115,11 +3269,11 @@
             <para />
             <em>Note:</em> Qualifiers are only supported for simple leaf properties at this time.
             </remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propName">
             The name of the property to which the qualifier is attached. May be a general
             path expression, must not be <c>null</c> or the empty string. Has the same
-            namespace prefix usage as in <c>getProperty()</c>.
+            namespace prefix usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="qualNs">
             The namespace URI for the qualifier. Has the same URI and prefix usage as the
@@ -3131,7 +3285,7 @@
             propName parameter.
             </param>
             <returns>
-            Returns a <c>XMPProperty</c> containing the value and the options of the
+            Returns an <see cref="T:XmpCore.IXmpProperty"/> containing the value and the options of the
             qualifier or <c>null</c> if the property does not exist. The name of the
             qualifier must be a single XML name, must not be <c>null</c> or the empty
             string. Has the same namespace prefix usage as the propName parameter.
@@ -3143,7 +3297,7 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.SetProperty(System.String,System.String,System.Object,XmpCore.Options.PropertyOptions)">
             <summary>
-            The property value <c>setters</c> all take a property specification, their
+            The property value setters all take a property specification, their
             differences are in the form of this.
             </summary>
             <remarks>
@@ -3162,17 +3316,17 @@
             This is the simplest property setter, mainly for top level simple properties or after using
             the path composition functions in <see cref="T:XmpCore.XmpPathFactory"/>.
             </remarks>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propName">
             The name of the property.
-            Has the same usage as in <c>getProperty()</c>.
+            Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="propValue">
             the value for the property (only leaf properties have a value).
             Arrays and non-leaf levels of structs do not have values.
             Must be <c>null</c> if the value is not relevant.<br/>
-            The value is automatically detected: Boolean, Integer, Long, Double, XMPDateTime and
-            byte[] are handled, on all other <c>toString()</c> is called.
+            The value is automatically detected: Boolean, Integer, Long, Double, <see cref="T:XmpCore.IXmpDateTime"/> and
+            byte[] are handled, on all other <see cref="M:System.Object.ToString"/> is called.
             </param>
             <param name="options">Option flags describing the property. See the earlier description.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3192,11 +3346,11 @@
             passed must already exist. In normal usage the selected array item is modified. A new item is
             automatically appended if the index is the array size plus 1.
             </remarks>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in getProperty.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="itemIndex">
             The index of the desired item. Arrays in XMP are indexed from 1. To address
@@ -3207,7 +3361,7 @@
             </param>
             <param name="itemValue">
             the new value of the array item. Has the same usage as propValue in
-            <c>setProperty()</c>.
+            <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="options">the set options for the item.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3228,19 +3382,19 @@
             string, etc. The array passed must already exist. In normal usage the selected array item is
             modified. A new item is automatically appended if the index is the array size plus 1.
             </remarks>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in getProperty.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="itemIndex">
             The index to insert the new item. Arrays in XMP are indexed from 1. Use
-            <c>XMPConst.ARRAY_LAST_ITEM</c> to append items.
+            <see cref="F:XmpCore.XmpConstants.ArrayLastItem"/> to append items.
             </param>
             <param name="itemValue">
             the new value of the array item. Has the same usage as
-            propValue in <c>setProperty()</c>.
+            propValue in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="options">the set options that decide about the kind of the node.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3261,10 +3415,10 @@
             use as setArrayItem(). The arrayOptions parameter is used to specify what kind of array. If
             the array exists, it must have the specified form.
             </remarks>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be null or
-            the empty string. Has the same namespace prefix usage as propPath in getProperty.
+            the empty string. Has the same namespace prefix usage as propPath in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="arrayOptions">
             Option flags describing the array form. The only valid options are
@@ -3278,7 +3432,7 @@
             already existing, otherwise you can set them to <c>null</c> or use
             <see cref="M:XmpCore.IXmpMeta.AppendArrayItem(System.String,System.String,System.String)"/>.
             </param>
-            <param name="itemValue">the value of the array item. Has the same usage as propValue in getProperty.</param>
+            <param name="itemValue">the value of the array item. Has the same usage as propValue in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="itemOptions">Option flags describing the item to append (<see cref="T:XmpCore.Options.PropertyOptions"/>)</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
         </member>
@@ -3298,10 +3452,10 @@
             the namespace prefix, which is unreliable because the prefix is never guaranteed. The URI is
             the formal name, the prefix is just a local shorthand in a given sequence of XML text.
             </remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="structName">
             The name of the struct. May be a general path expression, must not be null
-            or the empty string. Has the same namespace prefix usage as propName in getProperty.
+            or the empty string. Has the same namespace prefix usage as propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="fieldNs">
             The namespace URI for the field. Has the same URI and prefix usage as the
@@ -3313,7 +3467,7 @@
             </param>
             <param name="fieldValue">
             the value of thefield, if the field has a value.
-            Has the same usage as propValue in getProperty.
+            Has the same usage as propValue in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="options">Option flags describing the field. See the earlier description.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3338,8 +3492,8 @@
             just a local shorthand in a given sequence of XML text. The property the qualifier
             will be attached has to exist.
             </remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in getProperty.</param>
-            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="qualNs">The namespace URI for the qualifier. Has the same URI and prefix usage as the schemaNS parameter.</param>
             <param name="qualName">
             The name of the qualifier. Must be a single XML name, must not be
@@ -3349,7 +3503,7 @@
             <param name="qualValue">
             A pointer to the <c>null</c> terminated UTF-8 string that is the
             value of the qualifier, if the qualifier has a value. Has the same usage as propValue
-            in getProperty.
+            in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="options">Option flags describing the qualifier. See the earlier description.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
@@ -3366,32 +3520,32 @@
         <member name="M:XmpCore.IXmpMeta.DeleteProperty(System.String,System.String)">
             <summary>Deletes the given XMP subtree rooted at the given property.</summary>
             <remarks>It is not an error if the property does not exist.</remarks>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
         </member>
         <member name="M:XmpCore.IXmpMeta.DeleteArrayItem(System.String,System.String,System.Int32)">
             <summary>Deletes the given XMP subtree rooted at the given array item.</summary>
             <remarks>It is not an error if the array item does not exist.</remarks>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="itemIndex">
             The index of the desired item. Arrays in XMP are indexed from 1. The
-            constant <c>XMPConst.ARRAY_LAST_ITEM</c> always refers to the last
+            constant <see cref="F:XmpCore.XmpConstants.ArrayLastItem"/> always refers to the last
             existing array item.
             </param>
         </member>
         <member name="M:XmpCore.IXmpMeta.DeleteStructField(System.String,System.String,System.String,System.String)">
             <summary>Deletes the given XMP subtree rooted at the given struct field.</summary>
             <remarks>It is not an error if the field does not exist.</remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="structName">
             The name of the struct. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in getProperty.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="fieldNs">The namespace URI for the field. Has the same URI and prefix usage as the schemaNS parameter.</param>
             <param name="fieldName">
@@ -3406,8 +3560,8 @@
             Deletes the given XMP subtree rooted at the given qualifier. It is not an error if the
             qualifier does not exist.
             </remarks>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in getProperty.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="qualNs">The namespace URI for the qualifier. Has the same URI and prefix usage as the schemaNS parameter.</param>
             <param name="qualName">
             The name of the qualifier. Must be a single XML name, must not be
@@ -3417,32 +3571,32 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.DoesPropertyExist(System.String,System.String)">
             <summary>Returns whether the property exists.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns true if the property exists.</returns>
         </member>
         <member name="M:XmpCore.IXmpMeta.DoesArrayItemExist(System.String,System.String,System.Int32)">
             <summary>Tells if the array item exists.</summary>
-            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the array. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="itemIndex">
             The index of the desired item. Arrays in XMP are indexed from 1. The
-            constant <c>XMPConst.ARRAY_LAST_ITEM</c> always refers to the last
+            constant <see cref="F:XmpCore.XmpConstants.ArrayLastItem"/> always refers to the last
             existing array item.
             </param>
             <returns>Returns <c>true</c> if the array exists, <c>false</c> otherwise.</returns>
         </member>
         <member name="M:XmpCore.IXmpMeta.DoesStructFieldExist(System.String,System.String,System.String,System.String)">
             <summary>DoesStructFieldExist tells if the struct field exists.</summary>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="structName">
             The name of the struct. May be a general path expression, must not be
             <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="fieldNs">The namespace URI for the field. Has the same URI and prefix usage as the schemaNS parameter.</param>
             <param name="fieldName">
@@ -3454,8 +3608,8 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.DoesQualifierExist(System.String,System.String,System.String,System.String)">
             <summary>DoesQualifierExist tells if the qualifier exists.</summary>
-            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the struct. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property to which the qualifier is attached. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="qualNs">The namespace URI for the qualifier. Has the same URI and prefix usage as the schemaNS parameter.</param>
             <param name="qualName">
             The name of the qualifier. Must be a single XML name, must not be
@@ -3515,12 +3669,12 @@
             </remarks>
             <param name="schemaNs">
             The namespace URI for the alt-text array. Has the same usage as in
-            <c>getProperty()</c>.
+            <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="altTextName">
             The name of the alt-text array. May be a general path expression, must not
             be <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="genericLang">
             The name of the generic language as an RFC 3066 primary subtag. May be
@@ -3531,7 +3685,7 @@
             <c>null</c> or the empty string.
             </param>
             <returns>
-            Returns an <c>XMPProperty</c> containing the value, the actual language and
+            Returns an <see cref="T:XmpCore.IXmpProperty"/> containing the value, the actual language and
             the options if an appropriate alternate collection item exists, <c>null</c>
             if the property.
             does not exist.
@@ -3559,12 +3713,12 @@
             </remarks>
             <param name="schemaNs">
             The namespace URI for the alt-text array. Has the same usage as in
-            <c>getProperty()</c>.
+            <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="altTextName">
             The name of the alt-text array. May be a general path expression, must not
             be <c>null</c> or the empty string. Has the same namespace prefix usage as
-            propName in <c>getProperty()</c>.
+            propName in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.
             </param>
             <param name="genericLang">
             The name of the generic language as an RFC 3066 primary subtag. May be
@@ -3592,72 +3746,72 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyBoolean(System.String,System.String)">
             <summary>
-            These are very similar to <c>getProperty()</c> and <c>SetProperty()</c> above,
+            These are very similar to <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/> and <see cref="M:XmpCore.IXmpMeta.SetProperty(System.String,System.String,System.Object)"/> above,
             but the value is returned or provided in a literal form instead of as a UTF-8 string.
             </summary>
             <remarks>
-            The path composition functions in <c>XMPPathFactory</c> may be used to compose an path
+            The path composition functions in <see cref="T:XmpCore.XmpPathFactory"/> may be used to compose an path
             expression for fields in nested structures, items in arrays, or qualifiers.
             </remarks>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>bool</c> value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyInteger(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns an <c>int</c> value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyLong(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>long</c> value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyDouble(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>double</c> value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyDate(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>IXmpDateTime</c> object or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyCalendar(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>Calendar</c>-object or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyBase64(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>byte[]</c>-array contained the decoded base64 value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.GetPropertyString(System.String,System.String)">
             <summary>Convenience method to retrieve the literal value of a property.</summary>
-            <remarks>Note that there is no <c>setPropertyString()</c>, because <c>setProperty()</c> sets a string value.</remarks>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>getProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <remarks>Note that there is no <c>setPropertyString()</c>z, because <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/> sets a string value.</remarks>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <returns>Returns a <c>string</c> value or <c>null</c> if the property does not exist.</returns>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur, especially conversion errors.</exception>
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyBoolean(System.String,System.String,System.Boolean,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property to a literal <c>boolean</c> value.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the literal property value as <c>boolean</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3668,12 +3822,11 @@
             <param name="propName">The name of the property</param>
             <param name="propValue">the literal property value as <c>boolean</c></param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyInteger(System.String,System.String,System.Int32,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property to a literal <c>int</c> value.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the literal property value as <c>int</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3687,8 +3840,8 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyLong(System.String,System.String,System.Int64,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property to a literal <c>long</c> value.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the literal property value as <c>long</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3699,12 +3852,11 @@
             <param name="propName">The name of the property</param>
             <param name="propValue">the literal property value as <c>long</c></param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyDouble(System.String,System.String,System.Double,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property to a literal <c>double</c> value.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the literal property value as <c>double</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3718,8 +3870,8 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyDate(System.String,System.String,XmpCore.IXmpDateTime,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property with an XMPDateTime-object, which is serialized to an ISO8601 date.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in<c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in<see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the property value as <c>XMPDateTime</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3733,8 +3885,8 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyCalendar(System.String,System.String,Sharpen.Calendar,XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property with a Calendar-object, which is serialized to an ISO8601 date.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the property value as <c>Calendar</c>.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3748,8 +3900,8 @@
         </member>
         <member name="M:XmpCore.IXmpMeta.SetPropertyBase64(System.String,System.String,System.Byte[],XmpCore.Options.PropertyOptions)">
             <summary>Convenience method to set a property from a binary <c>byte[]</c>-array, which is serialized as base64-string.</summary>
-            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <c>setProperty()</c>.</param>
-            <param name="propName">The name of the property. Has the same usage as in <c>getProperty()</c>.</param>
+            <param name="schemaNs">The namespace URI for the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
+            <param name="propName">The name of the property. Has the same usage as in <see cref="M:XmpCore.IXmpMeta.GetProperty(System.String,System.String)"/>.</param>
             <param name="propValue">the literal property value as byte array.</param>
             <param name="options">options of the property to set (optional).</param>
             <exception cref="T:XmpCore.XmpException">Wraps all exceptions that may occur.</exception>
@@ -3802,7 +3954,6 @@
             </remarks>
             <param name="options">optional parsing options.</param>
             <exception cref="T:XmpCore.XmpException">Wraps all errors and exceptions that may occur.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.IXmpMeta.DumpObject">
             <summary>Renders this node and the tree under this node in a human readable form.</summary>
@@ -3810,6 +3961,7 @@
         </member>
         <member name="T:XmpCore.IXmpProperty">
             <summary>Models a a text property together with its language and options.</summary>
+            <author>Stefan Makswit</author>
             <since>23.01.2006</since>
         </member>
         <member name="P:XmpCore.IXmpProperty.Value">
@@ -3827,6 +3979,7 @@
         <member name="T:XmpCore.IXmpPropertyInfo">
             <summary>Models a property together with its path and namespace.</summary>
             <remarks>Instances of this type are are iterated via <see cref="T:XmpCore.IXmpIterator"/>.</remarks>
+            <author>Stefan Makswit</author>
             <since>06.07.2006</since>
         </member>
         <member name="P:XmpCore.IXmpPropertyInfo.Namespace">
@@ -3865,6 +4018,7 @@
             structure or array to an identical top level structure or array, or to the
             first item of an array of structures.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>27.01.2006</since>
         </member>
         <member name="M:XmpCore.IXmpSchemaRegistry.RegisterNamespace(System.String,System.String)">
@@ -3976,6 +4130,7 @@
             <remarks>
             Version information for the XMP toolkit is available at runtime via <see cref="P:XmpCore.XmpMetaFactory.VersionInfo"/>.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>23.01.2006</since>
         </member>
         <member name="P:XmpCore.IXmpVersionInfo.Major">
@@ -3998,6 +4153,7 @@
         </member>
         <member name="T:XmpCore.Options.AliasOptions">
             <summary>Options for XMPSchemaRegistryImpl#registerAlias.</summary>
+            <author>Stefan Makswit</author>
             <since>20.02.2006</since>
         </member>
         <member name="F:XmpCore.Options.AliasOptions.PropDirect">
@@ -4031,6 +4187,7 @@
         </member>
         <member name="T:XmpCore.Options.IteratorOptions">
             <summary>Options for <c>XMPIterator</c> construction.</summary>
+            <author>Stefan Makswit</author>
             <since>24.01.2006</since>
         </member>
         <member name="F:XmpCore.Options.IteratorOptions.JustChildren">
@@ -4056,6 +4213,7 @@
             The base class for a collection of 32 flag bits. Individual flags are defined as enum value bit
             masks. Inheriting classes add convenience accessor methods.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>24.01.2006</since>
         </member>
         <member name="F:XmpCore.Options.Options._options">
@@ -4101,7 +4259,7 @@
         </member>
         <member name="M:XmpCore.Options.Options.SetOptions(System.Int32)">
             <param name="options">The options to set.</param>
-            <exception cref="T:XmpCore.XmpException"></exception>
+            <exception cref="T:XmpCore.XmpException">If the options are not correct</exception>
         </member>
         <member name="M:XmpCore.Options.Options.GetOptionsString">
             <summary>Creates a human readable string from the set options.</summary>
@@ -4163,6 +4321,7 @@
             <summary>
             Options for <see cref="M:XmpCore.XmpMetaFactory.Parse(System.IO.Stream,XmpCore.Options.ParseOptions)"/>.
             </summary>
+            <author>Stefan Makswit</author>
             <since>24.01.2006</since>
         </member>
         <member name="F:XmpCore.Options.ParseOptions.RequireXmpMetaFlag">
@@ -4180,14 +4339,31 @@
         <member name="F:XmpCore.Options.ParseOptions.OmitNormalizationFlag">
             <summary>Do not carry run the XMPNormalizer on a packet, leave it as it is.</summary>
         </member>
+        <member name="F:XmpCore.Options.ParseOptions.DisallowDoctypeFlag">
+            <summary>Disallow DOCTYPE declarations to prevent entity expansion attacks.</summary>
+        </member>
+        <member name="F:XmpCore.Options.ParseOptions.mXMPNodesToLimit">
+            <summary>Map of nodes whose children are to be limited.</summary>
+        </member>
         <member name="M:XmpCore.Options.ParseOptions.#ctor">
             <summary>Sets the options to the default values.</summary>
+        </member>
+        <member name="P:XmpCore.Options.ParseOptions.AreXMPNodesLimited">
+            <summary>Returns true if some XMP nodes have been limited.</summary>
+        </member>
+        <member name="M:XmpCore.Options.ParseOptions.SetXMPNodesToLimit(System.Collections.Generic.Dictionary{System.String,System.Int32})">
+            <param name="nodeMap">the Map with name of nodes and number-of-items to limit them to</param>
+            <summary>Returns the instance to call more set-methods.</summary>
+        </member>
+        <member name="M:XmpCore.Options.ParseOptions.GetXMPNodesToLimit">
+            <summary>Returns map containing names oF XMP nodes to limit and number-of-items limit corresponding to the XMP nodes.</summary>
         </member>
         <member name="T:XmpCore.Options.PropertyOptions">
             <summary>
             The property flags are used when properties are fetched from the <c>XMPMeta</c>-object
             and provide more detailed information about the property.
             </summary>
+            <author>Stefan Makswit</author>
             <since>03.07.2006</since>
         </member>
         <member name="F:XmpCore.Options.PropertyOptions.DeleteExisting">
@@ -4197,7 +4373,7 @@
             <summary>Default constructor</summary>
         </member>
         <member name="M:XmpCore.Options.PropertyOptions.#ctor(System.Int32)">
-            <summary>Intialization constructor</summary>
+            <summary>Initialization constructor</summary>
             <param name="options">the initialization options</param>
             <exception cref="T:XmpCore.XmpException">If the options are not valid</exception>
         </member>
@@ -4256,6 +4432,16 @@
               Each array element is a simple property with an <tt>xml:lang</tt> attribute.
             </value>
         </member>
+        <member name="P:XmpCore.Options.PropertyOptions.IsArrayLimited">
+            <value>Return whether this property is an array with a limit on number-of-elements.</value>
+        </member>
+        <member name="M:XmpCore.Options.PropertyOptions.SetArrayElementLimit(System.Int32)">
+            <param name="arrayLimit">the limit to set on number-of-elements</param>
+            <value>Returns this to enable cascaded options.</value>
+        </member>
+        <member name="P:XmpCore.Options.PropertyOptions.ArrayElementsLimit">
+            <value>Returns the current limit on number-of-elements</value>
+        </member>
         <member name="P:XmpCore.Options.PropertyOptions.IsSchemaNode">
             <value>Returns whether the SCHEMA_NODE option is set.</value>
         </member>
@@ -4294,9 +4480,10 @@
             <summary>
             Options for <see cref="M:XmpCore.XmpMetaFactory.SerializeToBuffer(XmpCore.IXmpMeta,XmpCore.Options.SerializeOptions)"/>.
             </summary>
+            /// <author>Stefan Makswit</author>
             <since>24.01.2006</since>
         </member>
-        <member name="F:XmpCore.Options.SerializeOptions.LittleendianBit">
+        <member name="F:XmpCore.Options.SerializeOptions.LittleEndianBit">
             <summary>Bit indicating little endian encoding, unset is big endian</summary>
         </member>
         <member name="F:XmpCore.Options.SerializeOptions.Utf16Bit">
@@ -4309,9 +4496,9 @@
             <summary>Default constructor.</summary>
         </member>
         <member name="M:XmpCore.Options.SerializeOptions.#ctor(System.Int32)">
-            <summary>Constructor using inital options</summary>
-            <param name="options">the inital options</param>
-            <exception cref="T:XmpCore.XmpException">Thrown if options are not consistant.</exception>
+            <summary>Constructor using initial options</summary>
+            <param name="options">the initial options</param>
+            <exception cref="T:XmpCore.XmpException">Thrown if options are not consistent.</exception>
         </member>
         <member name="P:XmpCore.Options.SerializeOptions.OmitPacketWrapper">
             <summary>Omit the XML packet wrapper.</summary>
@@ -4335,6 +4522,9 @@
         <member name="P:XmpCore.Options.SerializeOptions.UseCanonicalFormat">
             <summary>Use the canonical form of RDF if set.</summary>
             <remarks>By default the compact form is used.</remarks>
+        </member>
+        <member name="P:XmpCore.Options.SerializeOptions.UsePlainXmp">
+            <summary>Serialize as &quot;Plain XMP&quot;, not RDF.</summary>
         </member>
         <member name="P:XmpCore.Options.SerializeOptions.IncludeThumbnailPad">
             <summary>Include a padding allowance for a thumbnail image.</summary>
@@ -4398,6 +4588,42 @@
         </member>
         <member name="M:XmpCore.Options.SerializeOptions.Clone">
             <returns>Returns clone of this SerializeOptions-object with the same options set.</returns>
+        </member>
+        <member name="T:XmpCore.Options.TemplateOptions">
+            <summary>
+            Options for <see cref="M:XmpCore.XmpMetaFactory.SerializeToBuffer(XmpCore.IXmpMeta,XmpCore.Options.SerializeOptions)"/>.
+            </summary>
+            <author>Stefan Makswit</author>
+            <since>24.01.2006</since>
+        </member>
+        <member name="M:XmpCore.Options.TemplateOptions.#ctor">
+            <summary>Default constructor.</summary>
+        </member>
+        <member name="M:XmpCore.Options.TemplateOptions.#ctor(System.Int32)">
+            <summary>Constructor using initial options</summary>
+            <param name="options">the initial options</param>
+            <exception cref="T:XmpCore.XmpException">Thrown if options are not consistent.</exception>
+        </member>
+        <member name="P:XmpCore.Options.TemplateOptions.ClearUnnamedProperties">
+            <summary></summary>
+        </member>
+        <member name="P:XmpCore.Options.TemplateOptions.ReplaceExistingProperties">
+            <summary></summary>
+        </member>
+        <member name="P:XmpCore.Options.TemplateOptions.IncludeInternalProperties">
+            <summary></summary>
+        </member>
+        <member name="P:XmpCore.Options.TemplateOptions.AddNewProperties">
+            <summary></summary>
+        </member>
+        <member name="P:XmpCore.Options.TemplateOptions.ReplaceWithDeleteEmpty">
+            <summary></summary>
+        </member>
+        <member name="M:XmpCore.Options.TemplateOptions.Clone">
+            <returns>Returns clone of this TemplateOptions-object with the same options set.</returns>
+        </member>
+        <member name="T:XmpCore.XmpConstants">
+            <author>Stefan Makswit</author>
         </member>
         <member name="F:XmpCore.XmpConstants.NsXml">
             <summary>The XML namespace for XML.</summary>
@@ -4471,6 +4697,9 @@
         <member name="F:XmpCore.XmpConstants.NsSwf">
             <summary>Adobe Flash SWF</summary>
         </member>
+        <member name="F:XmpCore.XmpConstants.NsCcv">
+            <summary>Adobe Creative Cloud Video</summary>
+        </member>
         <member name="F:XmpCore.XmpConstants.NsDcDeprecated">
             <summary>legacy Dublin Core NS, will be converted to NS_DC</summary>
         </member>
@@ -4520,10 +4749,17 @@
             <summary>The x-default string for localized properties</summary>
         </member>
         <member name="F:XmpCore.XmpConstants.XmlLang">
-            <summary>xml:lang qualfifier</summary>
+            <summary>xml:lang qualifier</summary>
+        </member>
+        <member name="F:XmpCore.XmpConstants.RdfLi">
+            <summary>rdf:li syntaxTerm</summary>
+            <remarks>
+            Does not appear in the original Java version. Added because of its usage in 
+            ParseRdf.cs and XmpNode.cs when string-comparing for array items.
+            </remarks>
         </member>
         <member name="F:XmpCore.XmpConstants.RdfType">
-            <summary>rdf:type qualfifier</summary>
+            <summary>rdf:type qualifier</summary>
         </member>
         <member name="F:XmpCore.XmpConstants.XmpPi">
             <summary>Processing Instruction (PI) for xmp packet</summary>
@@ -4536,54 +4772,44 @@
         </member>
         <member name="T:XmpCore.XmpDateTimeFactory">
             <summary>
-            A factory to create <c>XMPDateTime</c>-instances from a <c>Calendar</c> or an
+            A factory to create <see cref="T:XmpCore.Impl.XmpDateTime"/> instances from a <see cref="T:Sharpen.Calendar"/> or an
             ISO 8601 string or for the current time.
             </summary>
+            <author>Stefan Makswit</author>
             <since>16.02.2006</since>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.CreateFromCalendar(Sharpen.Calendar)">
-            <summary>Creates an <c>XMPDateTime</c> from a <c>Calendar</c>-object.</summary>
-            <param name="calendar">a <c>Calendar</c>-object.</param>
-            <returns>An <c>XMPDateTime</c>-object.</returns>
+            <summary>Creates an <see cref="T:XmpCore.Impl.XmpDateTime"/> from a <see cref="T:Sharpen.Calendar"/>-object.</summary>
+            <param name="calendar">a <see cref="T:Sharpen.Calendar"/>-object.</param>
+            <returns>An <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.Create">
-            <summary>Creates an empty <c>XMPDateTime</c>-object.</summary>
-            <returns>Returns an <c>XMPDateTime</c>-object.</returns>
+            <summary>Creates an empty <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</summary>
+            <returns>Returns an <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.Create(System.Int32,System.Int32,System.Int32)">
-            <summary>Creates an <c>XMPDateTime</c>-object from initial values.</summary>
+            <summary>Creates an <see cref="T:XmpCore.Impl.XmpDateTime"/>-object from initial values.</summary>
             <param name="year">years</param>
-            <param name="month">
-            months from 1 to 12<br />
-            <em>Note:</em> Remember that the month in
-            <see cref="T:Sharpen.Calendar"/>
-            is defined from 0 to 11.
-            </param>
+            <param name="month">months from 1 to 12 (Remember that the month in <see cref="T:Sharpen.Calendar"/> is defined from 0 to 11)</param>
             <param name="day">days</param>
-            <returns>Returns an <c>XMPDateTime</c>-object.</returns>
+            <returns>Returns an <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.Create(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>Creates an <c>XMPDateTime</c>-object from initial values.</summary>
+            <summary>Creates an <see cref="T:XmpCore.Impl.XmpDateTime"/>-object from initial values.</summary>
             <param name="year">years</param>
-            <param name="month">
-            months from 1 to 12<br />
-            <em>Note:</em> Remember that the month in
-            <see cref="T:Sharpen.Calendar"/>
-            is defined from 0 to 11.
-            </param>
+            <param name="month">months from 1 to 12 (Remember that the month in <see cref="T:Sharpen.Calendar"/> is defined from 0 to 11)</param>
             <param name="day">days</param>
             <param name="hour">hours</param>
             <param name="minute">minutes</param>
             <param name="second">seconds</param>
             <param name="nanoSecond">nanoseconds</param>
-            <returns>Returns an <c>XMPDateTime</c>-object.</returns>
+            <returns>Returns an <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.CreateFromIso8601(System.String)">
-            <summary>Creates an <c>XMPDateTime</c> from an ISO 8601 string.</summary>
+            <summary>Creates an <see cref="T:XmpCore.Impl.XmpDateTime"/> from an ISO 8601 string.</summary>
             <param name="strValue">The ISO 8601 string representation of the date/time.</param>
-            <returns>An <c>XMPDateTime</c>-object.</returns>
+            <returns>An <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
             <exception cref="T:XmpCore.XmpException">When the ISO 8601 string is non-conform</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.GetCurrentDateTime">
             <summary>Obtain the current date and time.</summary>
@@ -4597,8 +4823,8 @@
             Sets the local time zone without touching any other Any existing time zone value is replaced,
             the other date/time fields are not adjusted in any way.
             </summary>
-            <param name="dateTime">the <c>XMPDateTime</c> variable containing the value to be modified.</param>
-            <returns>Returns an updated <c>XMPDateTime</c>-object.</returns>
+            <param name="dateTime">the <see cref="T:XmpCore.Impl.XmpDateTime"/> variable containing the value to be modified.</param>
+            <returns>Returns an updated <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.ConvertToUtcTime(XmpCore.IXmpDateTime)">
             <summary>Make sure a time is UTC.</summary>
@@ -4607,10 +4833,10 @@
             adjusted and the time zone set to be UTC.
             </remarks>
             <param name="dateTime">
-            the <c>XMPDateTime</c> variable containing the time to
+            the <see cref="T:XmpCore.Impl.XmpDateTime"/> variable containing the time to
             be modified.
             </param>
-            <returns>Returns an updated <c>XMPDateTime</c>-object.</returns>
+            <returns>Returns an updated <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
         </member>
         <member name="M:XmpCore.XmpDateTimeFactory.ConvertToLocalTime(XmpCore.IXmpDateTime)">
             <summary>Make sure a time is local.</summary>
@@ -4618,18 +4844,22 @@
             Make sure a time is local. If the time zone is not the local zone, the time is adjusted and
             the time zone set to be local.
             </remarks>
-            <param name="dateTime">the <c>XMPDateTime</c> variable containing the time to be modified.</param>
-            <returns>Returns an updated <c>XMPDateTime</c>-object.</returns>
+            <param name="dateTime">the <see cref="T:XmpCore.Impl.XmpDateTime"/> variable containing the time to be modified.</param>
+            <returns>Returns an updated <see cref="T:XmpCore.Impl.XmpDateTime"/>-object.</returns>
+        </member>
+        <member name="T:XmpCore.XmpErrorCode">
+            <author>Stefan Makswit</author>
         </member>
         <member name="F:XmpCore.XmpErrorCode.BadStream">
             <summary>This code is introduced by Java.</summary>
         </member>
         <member name="T:XmpCore.XmpException">
             <summary>This exception wraps all errors that occur in the XMP Toolkit.</summary>
+            <author>Stefan Makswit</author>
             <since>16.02.2006</since>
         </member>
-        <member name="F:XmpCore.XmpException._errorCode">
-            <summary>the errorCode of the XMP toolkit</summary>
+        <member name="P:XmpCore.XmpException.ErrorCode">
+            <value>Gets the error code of the XMP toolkit.</value>
         </member>
         <member name="M:XmpCore.XmpException.#ctor(System.String,XmpCore.XmpErrorCode)">
             <summary>Constructs an exception with a message and an error code.</summary>
@@ -4637,23 +4867,21 @@
             <param name="errorCode">the error code</param>
         </member>
         <member name="M:XmpCore.XmpException.#ctor(System.String,XmpCore.XmpErrorCode,System.Exception)">
-            <summary>Constructs an exception with a message, an error code and a <c>Throwable</c></summary>
+            <summary>Constructs an exception with a message, an error code and an inner exception.</summary>
             <param name="message">the error message.</param>
             <param name="errorCode">the error code</param>
-            <param name="t">the exception source</param>
-        </member>
-        <member name="M:XmpCore.XmpException.GetErrorCode">
-            <returns>Returns the error code.</returns>
+            <param name="innerException">the exception source</param>
         </member>
         <member name="T:XmpCore.XmpMetaFactory">
             <summary>Parses and serialises <see cref="T:XmpCore.IXmpMeta"/> instances.</summary>
+            <author>Stefan Makswit</author>
             <since>30.01.2006</since>
         </member>
         <member name="P:XmpCore.XmpMetaFactory.SchemaRegistry">
             <value>Returns the singleton instance of the <see cref="T:XmpCore.Impl.XmpSchemaRegistry"/>.</value>
         </member>
         <member name="M:XmpCore.XmpMetaFactory.Create">
-            <returns>Returns an empty <c>XMPMeta</c>-object.</returns>
+            <returns>Returns an empty <see cref="T:XmpCore.IXmpMeta"/> instance.</returns>
         </member>
         <member name="M:XmpCore.XmpMetaFactory.Parse(System.IO.Stream,XmpCore.Options.ParseOptions)">
             <summary>
@@ -4743,7 +4971,7 @@
             an object. These are all functions that layer cleanly on top of the core XMP toolkit.
             <para />
             These functions provide support for composing path expressions to deeply nested properties. The
-            functions <c>XMPMeta</c> such as <c>getProperty()</c>,
+            functions <c>XMPMeta</c> such as <c>GetProperty()</c>,
             <c>getArrayItem()</c> and <c>getStructField()</c> provide easy access to top
             level simple properties, items in top level arrays, and fields of top level structs. They do not
             provide convenient access to more complex things like fields several levels deep in a complex
@@ -4755,20 +4983,17 @@
             component. Suppose you have a property that is an array of integers within a struct. You can
             access one of the array items like this:
             <para />
-            <blockquote>
-            <pre>
+            <code>
             string path = XmpPathFactory.ComposeStructFieldPath(schemaNS, "Struct", fieldNS, "Array");
             string path += XmpPathFactory.ComposeArrayItemPath(schemaNS, "Array", index);
             PropertyInteger result = xmpObj.GetPropertyAsInteger(schemaNS, path);
-            </pre>
-            </blockquote> You could also use this code if you want the string form of the integer:
-            <blockquote>
-            <pre>
-            String path = XMPPathFactory.composeStructFieldPath (schemaNS, &quot;Struct&quot;, fieldNS,
+            </code>
+            You could also use this code if you want the string form of the integer:
+            <code>
+            String path = XmpPathFactory.ComposeStructFieldPath (schemaNS, &quot;Struct&quot;, fieldNS,
             &quot;Array&quot;);
-            PropertyText xmpObj.getArrayItem (schemaNS, path, index);
-            </pre>
-            </blockquote>
+            PropertyText xmpObj.GetArrayItem (schemaNS, path, index);
+            </code>
             <para />
             <em>Note:</em> It might look confusing that the schemaNS is passed in all of the calls above.
             This is because the XMP toolkit keeps the top level &quot;schema&quot; namespace separate from
@@ -4776,6 +5001,7 @@
             <em>Note:</em> These methods are much simpler than in the C++-API, they don't check the given
             path or array indices.
             </remarks>
+            <author>Stefan Makswit</author>
             <since>25.01.2006</since>
         </member>
         <member name="M:XmpCore.XmpPathFactory.ComposeArrayItemPath(System.String,System.Int32)">
@@ -4793,8 +5019,7 @@
             <tt>ns:arrayName[i]</tt>, where &quot;ns&quot; is the prefix for schemaNS and
             &quot;i&quot; is the decimal representation of itemIndex.
             </returns>
-            <exception cref="T:XmpCore.XmpException">Throws exeption if index zero is used.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
+            <exception cref="T:XmpCore.XmpException">Throws exception if index zero is used.</exception>
         </member>
         <member name="M:XmpCore.XmpPathFactory.ComposeStructFieldPath(System.String,System.String)">
             <summary>Compose the path expression for a field in a struct.</summary>
@@ -4806,7 +5031,6 @@
             schemaNS and &quot;fNS&quot; is the prefix for fieldNS.
             </returns>
             <exception cref="T:XmpCore.XmpException">Thrown if the path to create is not valid.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.ComposeQualifierPath(System.String,System.String)">
             <summary>Compose the path expression for a qualifier.</summary>
@@ -4824,7 +5048,6 @@
             schemaNS and &quot;qNS&quot; is the prefix for qualNS.
             </returns>
             <exception cref="T:XmpCore.XmpException">Thrown if the path to create is not valid.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.ComposeLangSelector(System.String,System.String)">
             <summary>Compose the path expression to select an alternate item by language.</summary>
@@ -4862,13 +5085,10 @@
             create an array of download alternatives. You can show the user a popup built from the values
             of the city fields. You can then get the corresponding URI as follows:
             <para />
-            <blockquote>
-            <pre>
-            String path = composeFieldSelector ( schemaNS, &quot;Downloads&quot;, fieldNS,
-            &quot;City&quot;, chosenCity );
+            <code>
+            String path = composeFieldSelector ( schemaNS, &quot;Downloads&quot;, fieldNS, &quot;City&quot;, chosenCity );
             XMPProperty prop = xmpObj.getStructField ( schemaNS, path, fieldNS, &quot;URI&quot; );
-            </pre>
-            </blockquote>
+            </code>
             </remarks>
             <param name="arrayName">
             The name of the array. May be a general path expression, must not be
@@ -4890,34 +5110,30 @@
             prefix for schemaNS and &quot;fNS&quot; is the prefix for fieldNS.
             </returns>
             <exception cref="T:XmpCore.XmpException">Thrown if the path to create is not valid.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.AssertQualNs(System.String)">
             <summary>ParameterAsserts that a qualifier namespace is set.</summary>
             <param name="qualNs">a qualifier namespace</param>
             <exception cref="T:XmpCore.XmpException">Qualifier schema is null or empty</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.AssertQualName(System.String)">
             <summary>ParameterAsserts that a qualifier name is set.</summary>
             <param name="qualName">a qualifier name or path</param>
             <exception cref="T:XmpCore.XmpException">Qualifier name is null or empty</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.AssertFieldNs(System.String)">
             <summary>ParameterAsserts that a struct field namespace is set.</summary>
             <param name="fieldNs">a struct field namespace</param>
             <exception cref="T:XmpCore.XmpException">Struct field schema is null or empty</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpPathFactory.AssertFieldName(System.String)">
             <summary>ParameterAsserts that a struct field name is set.</summary>
             <param name="fieldName">a struct field name or path</param>
             <exception cref="T:XmpCore.XmpException">Struct field name is null or empty</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="T:XmpCore.XmpUtils">
             <summary>Utility methods for XMP.</summary>
+            <author>Stefan Makswit</author>
             <since>21.02.2006</since>
         </member>
         <member name="M:XmpCore.XmpUtils.CatenateArrayItems(XmpCore.IXmpMeta,System.String,System.String,System.String,System.String,System.Boolean)">
@@ -4944,7 +5160,6 @@
             <param name="allowCommas">Option flag to control the catenation.</param>
             <returns>Returns the string containing the catenated array items.</returns>
             <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.SeparateArrayItems(XmpCore.IXmpMeta,System.String,System.String,System.String,XmpCore.Options.PropertyOptions,System.Boolean)">
             <summary>Separate a single edit string into an array of strings.</summary>
@@ -4962,7 +5177,6 @@
             <param name="arrayOptions">Option flags to control the separation.</param>
             <param name="preserveCommas">Flag if commas shall be preserved</param>
             <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.RemoveProperties(XmpCore.IXmpMeta,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Remove multiple properties from an XMP object.</summary>
@@ -5005,7 +5219,6 @@
             <em>Note:</em> Currently not supported.
             </param>
             <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.AppendProperties(XmpCore.IXmpMeta,XmpCore.IXmpMeta,System.Boolean,System.Boolean,System.Boolean)">
             <summary>Append properties from one XMP object to another.</summary>
@@ -5035,9 +5248,9 @@
             values the same as non-empty values. An empty value is any of a simple empty string, an array
             with no items, or a struct with no fields. Qualifiers are ignored.</item>
             </list>
-            <para />The detailed behavior is defined by the following pseudo-code:
-            <blockquote>
-            <pre>
+            <para />
+            The detailed behavior is defined by the following pseudo-code:
+            <code>
             appendProperties ( sourceXMP, destXMP, doAllProperties,
             replaceOldValues, deleteEmptyValues ):
             for all source schema (top level namespaces):
@@ -5063,8 +5276,7 @@
             copy new items by "xml:lang" value into the destination
             else if form is an array:
             copy new items by value into the destination, ignoring order and duplicates
-            </pre>
-            </blockquote>
+            </code>
             <para /><em>Note:</em> appendProperties can be expensive if replaceOldValues is not passed and
             the XMP contains large arrays. The array item checking described above is n-squared.
             Each source item is checked to see if it already exists in the destination,
@@ -5079,7 +5291,6 @@
             <param name="replaceOldValues">Replace the values of existing properties.</param>
             <param name="deleteEmptyValues">Delete destination values if source property is empty.</param>
             <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertToBoolean(System.String)">
             <summary>Convert from string to Boolean.</summary>
@@ -5096,7 +5307,6 @@
             </list>
             </returns>
             <exception cref="T:XmpCore.XmpException">If an empty string is passed.</exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertFromBoolean(System.Boolean)">
             <summary>Convert from boolean to string.</summary>
@@ -5115,7 +5325,6 @@
             If the <c>rawValue</c> is <c>null</c> or empty or the
             conversion fails.
             </exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertFromInteger(System.Int32)">
             <summary>Convert from int to string.</summary>
@@ -5130,7 +5339,6 @@
             If the <c>rawValue</c> is <c>null</c> or empty or the
             conversion fails.
             </exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertFromLong(System.Int64)">
             <summary>Convert from long to string.</summary>
@@ -5145,7 +5353,6 @@
             If the <c>rawValue</c> is <c>null</c> or empty or the
             conversion fails.
             </exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertFromDouble(System.Double)">
             <summary>Convert from long to string.</summary>
@@ -5160,7 +5367,6 @@
             If the <c>rawValue</c> is <c>null</c> or empty or the
             conversion fails.
             </exception>
-            <exception cref="T:XmpCore.XmpException"/>
         </member>
         <member name="M:XmpCore.XmpUtils.ConvertFromDate(XmpCore.IXmpDateTime)">
             <summary>Convert from <c>XMPDateTime</c> to string.</summary>
@@ -5175,9 +5381,115 @@
         <member name="M:XmpCore.XmpUtils.DecodeBase64(System.String)">
             <summary>Decode from Base64 encoded string to raw data.</summary>
             <param name="base64String">a base64 encoded string</param>
-            <returns>Returns a byte array containg the decoded string.</returns>
+            <returns>Returns a byte array containing the decoded string.</returns>
             <exception cref="T:XmpCore.XmpException">Thrown if the given string is not property base64 encoded</exception>
-            <exception cref="T:XmpCore.XmpException"/>
+        </member>
+        <member name="M:XmpCore.XmpUtils.PackageForJPEG(XmpCore.IXmpMeta,System.Text.StringBuilder,System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>Creates XMP serializations appropriate for a JPEG file.</summary>
+            <remarks>The standard XMP in a JPEG file is limited to 64K bytes. This function
+            serializes the XMP metadata in an XMP object into a string of RDF . If
+            the data does not fit into the 64K byte limit, it creates a second packet
+            string with the extended data.</remarks>
+            <param name="origXMP">The XMP object containing the metadata.</param>
+            <param name="stdStr">A string builder object in which to return the full standard XMP packet.</param>
+            <param name="extStr">A string builder object in which to return the serialized extended XMP, empty if not needed.</param>
+            <param name="digestStr">A string builder object in which to return an MD5 digest of the serialized extended XMP, empty if not needed.</param>
+            @throws NoSuchAlgorithmException if fail to find algorithm for MD5
+            <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
+        </member>
+        <member name="M:XmpCore.XmpUtils.MergeFromJPEG(XmpCore.IXmpMeta,XmpCore.IXmpMeta)">
+            <summary>Merges standard and extended XMP retrieved from a JPEG file.</summary>
+            <remarks>When an extended partition stores properties that do not fit into the
+            JPEG file limitation of 64K bytes, this function integrates those
+            properties back into the same XMP object with those from the standard XMP
+            packet.</remarks>
+            <param name="fullXMP">An XMP object which the caller has initialized from the standard XMP packet in a JPEG file. The extended XMP is added to this object.</param>
+            <param name="extendedXMP">An XMP object which the caller has initialized from the extended XMP packet in a JPEG file.</param>
+            <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
+        </member>
+        <member name="M:XmpCore.XmpUtils.ApplyTemplate(XmpCore.IXmpMeta,XmpCore.IXmpMeta,XmpCore.Options.TemplateOptions)">
+            <summary>Modifies a working XMP object according to a template object.</summary>
+            <remarks>
+            The XMP template can be used to add, replace or delete properties from
+            the working XMP object. The actions that you specify determine how the
+            template is applied.Each action can be applied individually or combined;
+            if you do not specify any actions, the properties and values in the
+            working XMP object do not change.
+            <para />
+            These actions are available:
+            <list type="bullet">
+            <item>Clear <c>CLEAR_UNNAMED_PROPERTIES</c> : Deletes top-level
+            properties.Any top-level property that is present in the template(even
+            with empty value) is retained.All other top-level properties in the
+            working object are deleted</item>
+            <item>Add <c>ADD_NEW_PROPERTIES</c>: Adds new properties to the
+            working object if the template properties have values.See additional
+            detail below.</item>
+            <item>Replace <c>REPLACE_EXISTING_PROPERTIES</c>: Replaces the
+            values of existing top-level properties in the working XMP if the value
+            forms match those in the template. Properties with empty values in the
+            template are ignored. If combined with Clear or Add actions, those take
+            precedence; values are cleared or added, rather than replaced.</item>
+            <item>Replace/Delete empty <c>REPLACE_WITH_DELETE_EMPTY</c>:
+            Replaces values in the same way as the simple Replace action, and also
+            deletes properties if the value in the template is empty.If combined
+            with Clear or Add actions, those take precedence; values are cleared or
+            added, rather than replaced.</item>
+            <item>Include internal <c>INCLUDE_INTERNAL_PROPERTIES</c>: Performs
+            specified action on internal properties as well as external properties.
+            By default, internal properties are ignored for all actions.</item>
+            </list>
+            <para />
+            The Add behavior depends on the type of property:
+            <list type="bullet">
+            <item>If a top-level property is not in the working XMP, and has a value in
+            the template, the property and value are added.Empty properties are not
+            added.</item>
+            <item>If a property is in both the working XMP and template, the value
+            forms must match, otherwise the template is ignored for that property.</item>
+            <item>If a struct is present in both the working XMP and template, the
+            individual fields of the template struct are added as appropriate; that
+            is, the logic is recursively applied to the fields.Struct values are
+            equivalent if they have the same fields with equivalent values.</item>
+            <item>If an array is present in both the working XMP and template, items
+            from the template are added if the value forms match. Array values match
+            if they have sets of equivalent items, regardless of order.</item>
+            <item>Alt-text arrays use the \c xml:lang qualifier as a key, adding languages that are missing.</item>
+            </list>
+            <para />
+            Array item checking is n-squared; this can be time-intensive if the
+            Replace option is not specified.Each source item is checked to see if it
+            already exists in the destination, without regard to order or duplicates.
+            Simple items are compared by value and<code> xml:lang</code> qualifier;
+            other qualifiers are ignored.Structs are recursively compared by field
+            names, without regard to field order.Arrays are compared by recursively
+            comparing all items.
+            </remarks>
+            <param name="workingXMP">The destination XMP object.</param>
+            <param name="templateXMP">The template to apply to the destination XMP object.</param>
+            <param name="options">Option flags to control the copying. If none are specified,
+            the properties and values in the working XMP do not change. A logical OR of these bit-flag constants:
+            <list type="bullet">
+            <item><c>CLEAR_UNNAMED_PROPERTIES</c> Delete anything that is not in the template</item>
+            <item><c>ADD_NEW_PROPERTIES</c> Add properties; see detailed description.</item>
+            <item><c>REPLACE_EXISTING_PROPERTIES</c> Replace the values of existing properties.</item>
+            <item><c>REPLACE_WITH_DELETE_EMPTY</c> Replace the values of existing properties and delete properties if the new value is empty.</item>
+            <item><c>INCLUDE_INTERNAL_PROPERTIES</c> Operate on internal properties as well as external properties.</item>
+            </list>
+            </param>
+            <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
+        </member>
+        <member name="M:XmpCore.XmpUtils.DuplicateSubtree(XmpCore.IXmpMeta,XmpCore.IXmpMeta,System.String,System.String,System.String,System.String,XmpCore.Options.PropertyOptions)">
+            <summary>Replicate a subtree from one XMP object into another, possibly at a
+            different location.</summary>
+            <param name="source">The source XMP object.</param>
+            <param name="dest">The destination XMP object.</param>
+            <param name="sourceNS">The schema namespace URI for the source subtree.</param>
+            <param name="sourceRoot">The root location for the source subtree. May be a general path expression, must not be null or the empty string.</param>
+            <param name="destNS">The schema namespace URI for the destination. Defaults to the source namespace.</param>
+            <param name="destRoot">The root location for the destination. May be a general path expression. Defaults to the source location.</param>
+            <param name="options">Option flags to control the separation. (For now, this argument is ignored. 0 should be passed.</param>
+            <exception cref="T:XmpCore.XmpException">Forwards the Exceptions from the metadata processing</exception>
         </member>
         <member name="T:Sharpen.PushbackReader">
             <summary>
